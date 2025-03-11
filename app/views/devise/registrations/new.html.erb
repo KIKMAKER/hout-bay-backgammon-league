@@ -12,7 +12,12 @@
                 required: true,
                 autofocus: true%>
 
-    <%= f.input :group_id, collection: Group.all, prompt: "Select a group" %>
+    <%= f.input :group_id,
+                collection: Group.all,
+                prompt: "Select your group",
+                label: "Group",
+                required: true
+              %>
 
     <%= f.input :password,
                 required: true,
