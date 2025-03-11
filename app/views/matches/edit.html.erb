@@ -1,10 +1,14 @@
-<h1>Editing match</h1>
-
-<%= render "form", match: @match %>
-
-<br>
-
-<div>
-  <%= link_to "Show this match", @match %> |
-  <%= link_to "Back to matches", matches_path %>
-</div>
+<h2>Submit Match Result</h2>
+<p><%= @match.match_date.strftime('%A, %b %d') %></p>
+<%= simple_form_for @match do |f| %>
+  <p><strong><%= @match.player1.username %></strong> vs. <strong><%= @match.player2.username %></strong></p>
+  <div>
+    <div class="form-group">
+      <%= f.input :player1_score, label: "#{@match.player1.username} Score", required: true %>
+    </div>
+    <div class="form-group">
+      <%= f.input :player2_score, label: "#{@match.player2.username} Score", required: true %>
+    </div>
+  </div>
+  <%= f.submit "Submit Result", class: "btn btn-primary" %>
+<% end %>

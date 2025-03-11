@@ -1,58 +1,44 @@
 class MatchesController < ApplicationController
-  before_action :set_match, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :set_match, only: [:edit, :update]
+  before_action :authorize_player, only: [:edit, :update]
 
-  # GET /matches
   def index
-    @matches = Match.all
+    @matches = Match.where("player1_id = ? OR player2_id = ?", current_user.id, current_user.id).order(match_date: :asc)
   end
 
-  # GET /matches/1
-  def show
-  end
-
-  # GET /matches/new
-  def new
-    @match = Match.new
-  end
-
-  # GET /matches/1/edit
   def edit
   end
 
-  # POST /matches
-  def create
-    @match = Match.new(match_params)
-
-    if @match.save
-      redirect_to @match, notice: "Match was successfully created."
-    else
-      render :new, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /matches/1
   def update
     if @match.update(match_params)
-      redirect_to @match, notice: "Match was successfully updated.", status: :see_other
+      determine_winner
+      redirect_to matches_path, notice: "Match result submitted successfully."
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /matches/1
-  def destroy
-    @match.destroy!
-    redirect_to matches_url, notice: "Match was successfully destroyed.", status: :see_other
+  private
+
+  def set_match
+    @match = Match.find(params[:id])
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_match
-      @match = Match.find(params[:id])
+  def authorize_player
+    unless @match.player1 == current_user || @match.player2 == current_user
+      redirect_to matches_path, alert: "You are not authorized to update this match."
     end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def match_params
-      params.require(:match).permit(:player1_id, :player2_id, :player1_score, :player2_score, :winner_id, :match_date, :cycle_id)
+  def match_params
+    params.require(:match).permit(:player1_score, :player2_score)
+  end
+
+  def determine_winner
+    if @match.player1_score && @match.player2_score
+      winner = @match.player1_score > @match.player2_score ? @match.player1 : @match.player2
+      @match.update!(winner: winner)
     end
+  end
 end
