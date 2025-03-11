@@ -1,0 +1,19 @@
+
+<%= simple_form_for(@match) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :player1 %>
+    <%= f.association :player2 %>
+    <%= f.input :player1_score %>
+    <%= f.input :player2_score %>
+    <%= f.association :winner %>
+    <%= f.input :match_date %>
+    <%= f.association :cycle %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
