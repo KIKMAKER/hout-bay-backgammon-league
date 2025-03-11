@@ -1,0 +1,22 @@
+<h2>Cycle Management</h2>
+
+<%= link_to "Create New Cycle", new_admin_cycle_path, class: "btn white-button" %>
+
+<table class="custom-table table">
+  <thead>
+    <tr>
+      <th class="custom-table">Group</th>
+      <th class="custom-table">Start Date</th>
+      <th class="custom-table">End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cycles.each do |cycle| %>
+      <tr>
+        <td class="custom-table"><%= cycle.group.title %></td>
+        <td class="custom-table"><%= cycle.start_date.strftime("%d %b %Y") %></td>
+        <td class="custom-table"><%= cycle.end_date.strftime("%d %b %Y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,22 @@
+<h2>Create a New Cycle</h2>
+
+<%= form_with model: @cycle, url: admin_cycles_path, method: :post do |f| %>
+  <div class="form-group">
+    <%= f.label :start_date, "Start Date" %>
+    <%= f.date_field :start_date, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :weeks, "Number of Play Weeks" %>
+    <%= f.number_field :weeks, class: "form-control", min: 1, required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :end_date, "End Date (Including Catch-Up Weeks)" %>
+    <%= f.date_field :end_date, class: "form-control", required: true %>
+  </div>
+
+  <%= f.submit "Create Cycle", class: "btn btn-success" %>
+<% end %>
+
+<%= link_to "Back", admin_cycles_path, class: "btn btn-secondary" %>

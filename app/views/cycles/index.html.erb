@@ -1,14 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<h2>Cycle Management</h2>
 
-<h1>Cycles</h1>
+<%= link_to "Create New Cycle", new_admin_cycle_path, class: "btn btn-primary" %>
 
-<div id="cycles">
-  <% @cycles.each do |cycle| %>
-    <%= render cycle %>
-    <p>
-      <%= link_to "Show this cycle", cycle %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New cycle", new_cycle_path %>
+<table class="custom-table table">
+  <thead>
+    <tr>
+      <th class="custom-table table">Group</th>
+      <th class="custom-table table">Start Date</th>
+      <th class="custom-table table">End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cycles.each do |cycle| %>
+      <tr>
+        <td class="custom-table">><%= cycle.group.title %></td>
+        <td class="custom-table">><%= cycle.start_date.strftime("%d %b %Y") %></td>
+        <td class="custom-table">><%= cycle.end_date.strftime("%d %b %Y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
