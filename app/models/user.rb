@@ -6,4 +6,8 @@ class User < ApplicationRecord
 
 
   belongs_to :group
+
+  def admin?
+    admin
+  end
 end
