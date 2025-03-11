@@ -10,9 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_11_102106) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_11_102321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cycles", force: :cascade do |t|
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "weeks"
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_cycles_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "player1_id", null: false
+    t.bigint "player2_id", null: false
+    t.integer "player1_score"
+    t.integer "player2_score"
+    t.bigint "winner_id"
+    t.datetime "match_date"
+    t.bigint "cycle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cycle_id"], name: "index_matches_on_cycle_id"
+    t.index ["player1_id"], name: "index_matches_on_player1_id"
+    t.index ["player2_id"], name: "index_matches_on_player2_id"
+    t.index ["winner_id"], name: "index_matches_on_winner_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +58,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_102106) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cycles", "groups"
+  add_foreign_key "matches", "cycles"
+  add_foreign_key "matches", "users", column: "player1_id"
+  add_foreign_key "matches", "users", column: "player2_id"
+  add_foreign_key "matches", "users", column: "winner_id"
 end
