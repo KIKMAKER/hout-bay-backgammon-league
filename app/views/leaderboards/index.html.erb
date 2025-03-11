@@ -1,0 +1,22 @@
+<h2>Leaderboard - <%= current_user.group.title %></h2>
+
+<table class="custom-table table">
+  <thead>
+    <tr>
+      <th class="custom-table">Rank</th>
+      <th class="custom-table">Player</th>
+      <th class="custom-table">Wins</th>
+      <th class="custom-table">Played</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rankings.each_with_index do |ranking, index| %>
+      <tr class= >
+        <td class="custom-table shift"><p><%= index + 1 %></p></td>
+        <td class="custom-table"><%= ranking[:player].username %></td>
+        <td class="custom-table shift"><p><%= ranking[:wins] %></p></td>
+        <td class="custom-table shift"><p><%= ranking[:matches_played] %></p></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

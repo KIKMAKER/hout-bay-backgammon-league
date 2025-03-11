@@ -1,18 +1,18 @@
 <h2>Your Matches</h2>
-<table class="table">
+<table class="custom-table table">
   <thead>
     <tr>
-      <th>Match</th>
-      <th>Date</th>
-      <th>Result</th>
+      <th class="custom-table">Match</th>
+      <th class="custom-table">Date</th>
+      <th class="custom-table">Result</th>
     </tr>
   </thead>
   <tbody>
     <% @matches.each do |match| %>
       <tr>
-        <td><%= link_to "#{match.player1.username} vs. #{match.player2.username}", edit_match_path(match) %></td>
-        <td><%= match.match_date.strftime("%d %b %Y") %></td>
-        <td>
+        <td class="custom-table"><%= link_to "#{match.player1.username} vs. #{match.player2.username}", edit_match_path(match) %></td>
+        <td class="custom-table"><%= match.match_date.strftime("%d %b %Y") %></td>
+        <td class="custom-table">
           <% if match.winner.present? %>
             <strong>Winner:</strong> <%= match.winner.username %>
             (<%= match.player1_score %>-<%= match.player2_score %>)
@@ -20,11 +20,11 @@
             Pending
           <% end %>
         </td>
-        <td>
-          <% if match.winner.nil? && (match.player1 == current_user || match.player2 == current_user) %>
-            <%= link_to "Submit Result", edit_match_path(match), class: "btn btn-primary" %>
-          <% end %>
-        </td>
+        <!--<td class="custom-table">-->
+          <%# if match.winner.nil? && (match.player1 == current_user || match.player2 == current_user) %>
+            <%#= link_to "Submit Result", edit_match_path(match), class: "btn white-button" %>
+          <%# end %>
+<!--        </td>-->
       </tr>
     <% end %>
   </tbody>
