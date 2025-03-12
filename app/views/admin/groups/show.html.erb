@@ -1,30 +1,36 @@
 <div class="ms-3">
   <h2><%= @group.title %> Members</h2>
   <!--<table class="table table-striped w-75 ms-2">-->
-    <table class="custom-table table w-75 ms-2">
-  <thead>
-    <tr>
-      <th class="custom-table">Rank</th>
-      <th class="custom-table">Player</th>
-      <th class="custom-table">Wins</th>
-      <th class="custom-table">Played</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @rankings.each_with_index do |ranking, index| %>
-      <tr class= >
-        <td class="custom-table shift"><p><%= index + 1 %></p></td>
-        <td class="custom-table"><%= ranking[:player].username %></td>
-        <td class="custom-table shift"><p><%= ranking[:wins] %></p></td>
-        <td class="custom-table shift"><p><%= ranking[:matches_played] %></p></td>
+  <table class="custom-table table w-75 ms-2">
+    <thead>
+      <tr>
+        <th class="custom-table">Rank</th>
+        <th class="custom-table">Player</th>
+        <th class="custom-table">Wins</th>
+        <th class="custom-table">Played</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-  <%= link_to "Matches", admin_cycle_path(@latest_cycle), class: "btn white-button mb-2" %>
-<br>
+    </thead>
+    <tbody>
+      <% @rankings.each_with_index do |ranking, index| %>
+        <tr class= >
+          <td class="custom-table shift">
+            <p><%= index + 1 %></p>
+          </td>
+          <td class="custom-table"><%= ranking[:player].username %></td>
+          <td class="custom-table shift">
+            <p><%= ranking[:wins] %></p>
+          </td>
+          <td class="custom-table shift">
+            <p><%= ranking[:matches_played] %></p>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @latest_cycle %>
+    <%= link_to "Matches", admin_cycle_path(@latest_cycle), class: "btn white-button mb-2" %>
+  <% end %>
+  <br>
   <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %>
-
   <%= link_to "All Groups", admin_groups_path, class: "btn white-button ms-3" %>
 </div>
