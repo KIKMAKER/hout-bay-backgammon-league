@@ -1,0 +1,31 @@
+<div class="p-3">
+  <h2>Cycle <%= @cycle.id %> Matches - <%= @cycle.group.title %></h2>
+  <p>
+    Start Date: <%= @cycle.start_date %> |
+    End Date: <%= @cycle.end_date %> |
+    Weeks: <%= @cycle.weeks %>
+  </p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="custom-table">Date</th>
+        <th class="custom-table">Players</th>
+        <th class="custom-table">Score</th>
+        <th class="custom-table">Winner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @matches.each do |match| %>
+        <tr>
+          <td class="custom-table"><%= match.match_date&.strftime("%e %b") || "TBD" %></td>
+          <td class="custom-table"><%= match.player1.username %>
+            <p>vs.</p>
+            <%= match.player2.username %>
+          </td>
+          <td class="custom-table"><%= match.player1_score || 0 %> - <%= match.player2_score || 0 %></td>
+          <td class="custom-table"><%= match.winner ? match.winner.username : "Pending" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

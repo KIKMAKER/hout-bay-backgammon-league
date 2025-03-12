@@ -2,15 +2,16 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :groups, only: [:index, :show] do
-      resources :cycles, only: [:new, :create]
+    resources :groups, only: %i[index show] do
+      resources :cycles, only: %i[new create]
     end
+    resources :cycles, only: %i[index show]
   end
 
-  resources :matches, only: [:index, :edit, :update]
-  resources :leaderboards, only: [:index]
+  resources :matches, only: %i[index edit update]
+  resources :leaderboards, only: %i[index]
   root "pages#home"
-  
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
 
   belongs_to :group
+  validates :username, length: {minimum: 3, maximum: 9}
 
   def admin?
     admin

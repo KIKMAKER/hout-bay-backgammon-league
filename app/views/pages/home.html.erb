@@ -1,2 +1,35 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col text-center">
+      <h1>Welcome to the Hout Bay Backgammon League</h1>
+      <% if user_signed_in? %>
+        <h2><%= current_user.username %></h2>
+        <h3>You are in <%= current_user.group.title %></h3>
+        <div class="p-4">
+          <%= link_to 'matches', matches_path, class: "btn white-button"  %>
+          <%= link_to 'leaderboard', leaderboards_path, class: "btn white-button"  %>
+        </div>
+        <% if current_user.admin? %>
+          <br>
+          <%= link_to 'groups', admin_groups_path, class: "btn white-button"  %>
+        <% end %>
+      <% else %>
+        <p class="lead">
+          Join our friendly round-robin competition and sharpen your skills!
+        </p>
+        <p>Games are held every Tuesday</p>
+        <% if @latest_cycle.present? %>
+          <% if @latest_cycle.end_date && @latest_cycle.end_date > Date.current %>
+            <p class="mt-3">
+              The next round robin cycle will start after
+              <strong><%= @latest_cycle.end_date.strftime("%d %B %Y") %></strong>.
+            </p>
+          <% end %>
+        <% else %>
+          <p>And the first cycle is about to start!</p>
+        <% end %>
+        <%= link_to 'Sign Up', new_user_registration_path, class: 'btn white-button mx-2' %>
+      <% end %>
+    </div>
+  </div>
+</div>

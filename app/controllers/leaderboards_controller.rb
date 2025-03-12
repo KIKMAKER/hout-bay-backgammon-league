@@ -13,7 +13,7 @@ class LeaderboardsController < ApplicationController
       {
         player: player,
         wins: Match.where(winner: player).count,
-        matches_played: Match.where("player1_id = ? OR player2_id = ?", player.id, player.id).count
+        matches_played: Match.where("player1_id = ? OR player2_id = ?", player.id, player.id).where.not(winner_id: nil).count
       }
     end
 
@@ -24,7 +24,7 @@ class LeaderboardsController < ApplicationController
   def head_to_head_wins(player, players)
     players.sum do |opponent|
       next 0 if player == opponent
-      
+
       Match.where(winner: player, player1: opponent).or(Match.where(winner: player, player2: opponent)).count
     end
   end

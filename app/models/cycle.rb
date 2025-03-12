@@ -14,3 +14,4 @@ class Cycle < ApplicationRecord
     end
   end
 end
+

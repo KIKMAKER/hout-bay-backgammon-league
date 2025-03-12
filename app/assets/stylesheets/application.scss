@@ -11,9 +11,32 @@
 @import "components/index";
 @import "pages/index";
 
+// body {
+//   background-color: $stone;
+
+//   a {
+//     color: black;
+//   }
+// }
+
 body {
   background-color: $stone;
+  color: $gray;
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  ul {
+    padding: 0;
+  }
+
   a {
-    color: black;
+    text-decoration: none;
+    display: inline-block;
+    color: $gray ;
   }
 }
