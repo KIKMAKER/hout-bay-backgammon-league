@@ -1,0 +1,18 @@
+<h2>All Groups</h2>
+
+<table class="custom-table table">
+  <thead>
+    <tr>
+      <th class="custom-table">Group</th>
+      <th class="custom-table">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td class="custom-table"><%= group.title %></td>
+        <td class="custom-table"><%= link_to "View Group", admin_group_path(group) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

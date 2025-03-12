@@ -1,0 +1,20 @@
+<h2><%= @group.title %> Members</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="custom-table">Username</th>
+      <th class="custom-table">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @members.each do |member| %>
+      <tr>
+        <td class="custom-table"><%= member.username %></td>
+        <td class="custom-table"><%= member.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Create Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn btn-success" %>
+<%= link_to "Back to All Groups", admin_groups_path, class: "btn btn-secondary" %>

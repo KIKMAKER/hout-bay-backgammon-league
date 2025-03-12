@@ -1,5 +1,6 @@
 class Group < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_many :cycles, dependent: :destroy
 
   VALID_TITLES = ["Group A", "Group B", "Group C"]
 
