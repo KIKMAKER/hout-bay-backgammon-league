@@ -22,6 +22,8 @@
   </tbody>
 </table>
 
+  <%= link_to "Matches", admin_cycle_path(@latest_cycle), class: "btn white-button mb-2" %>
+<br>
   <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %>
 
   <%= link_to "All Groups", admin_groups_path, class: "btn white-button ms-3" %>

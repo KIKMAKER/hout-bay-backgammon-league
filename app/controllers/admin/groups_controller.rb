@@ -12,6 +12,7 @@ module Admin
       @group = Group.find(params[:id])
       @players = @group.users
       @rankings = calculate_rankings(@players)
+      @latest_cycle = @group.cycles.order(start_date: :asc).last
     end
 
     private
