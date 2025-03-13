@@ -83,24 +83,24 @@ module Admin
 
     def generate_matches_for_cycle(cycle)
       players = cycle.group.users.to_a
-  schedule = build_round_robin_schedule(players)
+      schedule = build_round_robin_schedule(players)
 
-  schedule.each_with_index do |round, i|
-    # Each round is i weeks after the start date (all Tuesdays)
-    round_date = cycle.start_date + i.weeks
+      schedule.each_with_index do |round, i|
+        # Each round is i weeks after the start date (all Tuesdays)
+        round_date = cycle.start_date + i.weeks
 
-    round.each do |(player1, player2)|
-      # Skip a "bye" match if odd number of players
-      next if player1.nil? || player2.nil?
+        round.each do |(player1, player2)|
+          # Skip a "bye" match if odd number of players
+          next if player1.nil? || player2.nil?
 
-      Match.create!(
-        player1: player1,
-        player2: player2,
-        cycle: cycle,
-        match_date: round_date
-      )
-    end
-  end
+          Match.create!(
+            player1: player1,
+            player2: player2,
+            cycle: cycle,
+            match_date: round_date
+          )
+        end
+      end
     end
   end
 
