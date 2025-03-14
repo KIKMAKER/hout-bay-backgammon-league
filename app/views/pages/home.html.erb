@@ -5,10 +5,10 @@
       <% if user_signed_in? %>
         <h2><%= current_user.username %></h2>
         <h3>You are in <%= current_user.group.title %></h3>
-        <div class="p-4">
-          <%= link_to 'matches', matches_path, class: "btn white-button"  %>
-          <%= link_to 'leaderboard', leaderboards_path, class: "btn white-button"  %>
-        </div>
+        <!--<div class="p-4">-->
+          <%#= link_to 'matches', matches_path, class: "btn white-button"  %>
+          <%#= link_to 'leaderboard', leaderboards_path, class: "btn white-button"  %>
+<!--        </div>-->
         <% if current_user.admin? %>
           <br>
           <%= link_to 'groups', admin_groups_path, class: "btn white-button"  %>

@@ -1,13 +1,14 @@
 <h2>Your Matches</h2>
-<% @matches.each do |match| %>
-  <div class="match-index-card">
-    <p><%= match.match_date.strftime("%d %b") %></p>
-    <%= link_to edit_match_path(match), class: "match-card-players" do %>
-      <p class="w-25"><%= match.player1.first_name %></p>
-      <p><%= match.winner.present? ? match.player1_score : '?' %></p>
-      <%= image_tag'bg_logo.png', class:"avatar"%>
-      <p><%= match.winner.present? ? match.player2_score : '?' %></p>
-      <p class="w-25"><%= match.player2.first_name %></p>
-    <% end %>
-  </div>
-<% end %>
+  <% @matches.each do |match| %>
+    <div class="match-index-card">
+      <p><%= match.match_date.strftime("%d %b") %></p>
+      <%= link_to edit_match_path(match), class: "match-card-players" do %>
+        <p class="w-25"><%= match.player1.first_name %></p>
+        <p><%= match.winner.present? ? match.player1_score : '?' %></p>
+        <%= image_tag'bg_logo.png', class:"avatar"%>
+        <p><%= match.winner.present? ? match.player2_score : '?' %></p>
+        <p class="w-25"><%= match.player2.first_name %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
