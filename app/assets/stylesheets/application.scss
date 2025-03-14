@@ -39,4 +39,10 @@ body {
     display: inline-block;
     color: $gray ;
   }
+
+  @media (max-width: 576px) {
+
+    padding-bottom: 60px; // roughly navbar height
+
+  }
 }
