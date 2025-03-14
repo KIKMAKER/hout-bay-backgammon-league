@@ -23,8 +23,12 @@ body {
   background-color: $stone;
   color: $gray;
 
+  h2 {
+    margin: 2rem 0;
+  }
+
   h1,
-  h2,
+
   h3,
   p {
     margin: 0;

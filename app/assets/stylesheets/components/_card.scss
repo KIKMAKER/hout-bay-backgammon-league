@@ -1,0 +1,17 @@
+.match-index-card {
+  width: 90vw;
+  text-align: center;
+  border-radius: 2rem;
+  background-color: $light-gray;
+  border: 1px solid white;
+  padding: 0.5rem;
+  .match-card-players {
+    display: flex;
+    justify-content: space-around;
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  margin-bottom: 1rem;
+
+}

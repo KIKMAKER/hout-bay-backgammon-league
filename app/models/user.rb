@@ -11,4 +11,10 @@ class User < ApplicationRecord
   def admin?
     admin
   end
+
+  def first_name
+    # `username` might be nil, so convert to string
+    # match everything (non-whitespace) at the start, up to the first space
+    username.to_s.match(/^(\S+)/) { |m| m[1] } || username.truncate(9)
+  end
 end
