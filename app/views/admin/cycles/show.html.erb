@@ -2,29 +2,18 @@
   <h2 class="mb-3">Cycle <%= @cycle.id %> Matches - <%= @cycle.group.title %></h2>
   <p class="mb-3">
     <%= @cycle.weeks %> weeks: <%= @cycle.start_date.strftime('%d %b %Y') %> - <%= @cycle.end_date.strftime('%d %b %Y') %>
-
   </p>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th class="custom-table">Date</th>
-        <th class="custom-table">Players</th>
-        <th class="custom-table">Score</th>
-        <th class="custom-table">Winner</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @matches.each do |match| %>
-        <tr>
-          <td class="custom-table"><%= match.match_date&.strftime("%e %b") || "TBD" %></td>
-          <td class="custom-table"><%= match.player1.username %>
-            <p>vs.</p>
-            <%= match.player2.username %>
-          </td>
-          <td class="custom-table"><%= match.player1_score || 0 %> - <%= match.player2_score || 0 %></td>
-          <td class="custom-table"><%= match.winner ? match.winner.username : "Pending" %></td>
-        </tr>
+  <% @matches.each do |match| %>
+    <div class="match-index-card">
+      <p><%= match.match_date.strftime("%d %b") %></p>
+      <%= link_to edit_match_path(match), class: "match-card-players" do %>
+        <p class="w-25"><%= match.player1.first_name %></p>
+        <p><%= match.winner.present? ? match.player1_score : '?' %></p>
+        <%= image_tag'bg_logo.png', class:"avatar"%>
+        <p><%= match.winner.present? ? match.player2_score : '?' %></p>
+        <p class="w-25"><%= match.player2.first_name %></p>
       <% end %>
-    </tbody>
-  </table>
+    </div>
+  <% end %>
+</div>
 </div>

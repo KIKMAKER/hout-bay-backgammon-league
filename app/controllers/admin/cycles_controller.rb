@@ -12,7 +12,7 @@ module Admin
     def show
       @cycle = Cycle.find(params[:id])
       # Eager-load players to avoid N+1 queries
-      @matches = @cycle.matches.includes(:player1, :player2, :winner)
+      @matches = @cycle.matches.includes(:player1, :player2, :winner).order(match_date: :asc)
     end
 
     def new
