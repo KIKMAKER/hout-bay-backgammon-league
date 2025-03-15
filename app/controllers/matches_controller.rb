@@ -32,7 +32,7 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:player1_score, :player2_score)
+    params.require(:match).permit(:player1_score, :player2_score, :match_date)
   end
 
   def determine_winner

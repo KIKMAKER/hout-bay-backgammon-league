@@ -8,6 +8,12 @@
     <div class="form-group">
       <%= f.input :player2_score, label: "#{@match.player2.username}", required: true %>
     </div>
+    <div class="form-group">
+      <%= f.input :match_date,
+            label: "Played on a different date?",
+            as: :string,
+            input_html: { data: { controller: "datepicker" } } %>
+    </div>
     <div class="container text-center">
       <%= f.submit "Submit Result", class: "btn white-button" %>
     </div>
