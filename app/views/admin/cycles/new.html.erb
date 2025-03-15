@@ -1,23 +1,20 @@
-<%= form_with model: @cycle, url: admin_group_cycles_path(@group), method: :post, local: true do |f| %>
-  <div class="form-group">
-    <%= f.label :start_date, "Start Date" %>
-    <%= f.date_field :start_date, class: "form-control" %>
+<h1><%= @group.title %></h1>
+<h2 class="fs-3">Add Cycle Details</h2>
+<%= simple_form_for @cycle, url: admin_group_cycles_path(@group), method: :post, local: true do |f| %>
+  <div class="container">
+    <%= f.input :start_date,
+    as: :string,
+    label: "Start Date",
+    input_html: { data: { controller: "datepicker" } }
+  %>
+    <%= f.input :weeks,
+    label: "Number of Play Weeks"
+  %>
+    <%= f.input :catch_up_weeks,
+    label: "Additional Catch-Up Weeks"
+  %>
+    <div class="container text-center">
+      <%= f.submit "Create Cycle", class: "btn white-button mt-3" %>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= f.label :weeks, "Number of Play Weeks" %>
-    <%= f.number_field :weeks, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :catch_up_weeks, "Additional Catch-Up Weeks" %>
-    <%= f.number_field :catch_up_weeks, class: "form-control" %>
-  </div>
-
-<!--  <div class="form-group">-->
-    <%#= f.label :end_date, "End Date (Including Catch-Up Weeks)" %>
-    <%#= f.date_field :end_date, class: "form-control" %>
-<!--  </div>-->
-
-  <%= f.submit "Create Cycle", class: "btn white-button mt-3" %>
 <% end %>
