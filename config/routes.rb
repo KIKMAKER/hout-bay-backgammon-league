@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :groups, only: %i[index show] do
+    resources :groups, only: %i[index show new create] do
       resources :cycles, only: %i[new create]
     end
     resources :cycles, only: %i[index show]

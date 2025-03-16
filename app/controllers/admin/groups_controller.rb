@@ -15,7 +15,24 @@ module Admin
       @latest_cycle = @group.cycles.order(start_date: :asc).last
     end
 
+    def new
+      @group = Group.new
+    end
+
+    def create
+      @group = Group.new(group_params)
+      if @group.save
+        redirect_to admin_group_path(@group)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     private
+
+    def group_params
+      params.require(:group).permit(:title)
+    end
 
     def authorize_admin!
       redirect_to root_path, alert: "Unauthorized!" unless current_user.admin?
