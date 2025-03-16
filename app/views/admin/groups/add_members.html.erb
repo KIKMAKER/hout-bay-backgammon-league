@@ -1,0 +1,20 @@
+<div class="ms-3 mb-4">
+  <%= link_to "All Groups", admin_groups_path, class: "btn white-button ms-1" %>
+  <h2>Add Members to <%= @group.title %></h2>
+  <div class="container p-3 ms-4">
+    <% if @unassigned_users.empty? %>
+      <p>All users are already assigned to groups</p>
+    <% else %>
+      <%= simple_form_for @group, url: assign_members_admin_group_path(@group), method: :post do |f| %>
+        <%= f.input :user_ids,
+                    as: :check_boxes,
+                    collection: @unassigned_users.map { |u| [u.username, u.id] },
+                    label: "Select:"
+                  %>
+        <div class="container text-center">
+          <%= f.submit "Add Members", class: "btn white-button mt-3" %>
+        </div>
+        <% end %>
+    </div>
+  <% end %>
+</div>

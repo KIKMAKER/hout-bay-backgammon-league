@@ -5,8 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
-  belongs_to :group
-  validates :username, length: {minimum: 3}
+  belongs_to :group, optional: true
+  validates :username, length: { minimum: 3 }
 
   def admin?
     admin

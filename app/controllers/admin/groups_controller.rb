@@ -28,6 +28,28 @@ module Admin
       end
     end
 
+    def add_members
+      @group = Group.find(params[:id])
+      # Only users with no group
+      @unassigned_users = User.where(group_id: nil).order(:username)
+      @group.user_ids = []
+    end
+
+    def assign_members
+      @group = Group.find(params[:id])
+      user_ids = params[:group][:user_ids] || []
+      # raise
+      # Update each user to belong to this group
+      user_ids.each do |usr_id|
+        next if usr_id == ""
+
+        User.find(usr_id).update!(group_id: @group.id)
+      end
+      # User.where(id: user_ids).update_all(group_id: @group.id)
+      # raise
+      redirect_to admin_group_path(@group), notice: "#{user_ids.size} users assigned to #{@group.title}"
+    end
+
     private
 
     def group_params

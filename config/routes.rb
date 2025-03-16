@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :groups, only: %i[index show new create] do
+      member do
+        get :add_members
+        post :assign_members
+      end
       resources :cycles, only: %i[new create]
     end
     resources :cycles, only: %i[index show]
