@@ -20,7 +20,7 @@ group_a_players = [
   { username: "Amir Kaap", email: "amir_kaap@example.com" },
   { username: "Liza Kaap", email: "liza_kaap@example.com" },
   { username: "Nigel Mullin", email: "nigel_mullin@example.com" },
-  { username: "Graham Reay", email: "graham_reay@example.com" },
+  { username: "Graeme Reay", email: "graham_reay@example.com" },
   { username: "Trudi van Wyk", email: "trudi_van_wyk@example.com" },
   { username: "Alexa Sanchez", email: "alexa_sanchez@example.com" },
   { username: "Keith Gow", email: "keith_gow@example.com" },
@@ -30,7 +30,6 @@ group_a_players = [
 
 group_b_players = [
   { username: "Giuseppe Carosini", email: "giuseppe_carosini@example.com" },
-  { username: "Kiki Kennedy", email: "kiki_kennedy@example.com" },
   { username: "Mikey Dredd", email: "mikey_dredd@example.com" },
   { username: "Clynton Tarboton", email: "clynton_tarboton@example.com" },
   { username: "Costa Vass", email: "costa_vass@example.com" },
@@ -38,9 +37,11 @@ group_b_players = [
   { username: "Richenda Slingerland", email: "richenda_slingerland@example.com" },
   { username: "Mark Sherwood", email: "mark_sherwood@example.com" },
   { username: "Natasha Lockwood", email: "natasha_lockwood@example.com" },
-  { username: "A.N Other", email: "an_other@example.com" }
+  { username: "Lulu Cohen", email: "lulu_cohen@example.com" },
+  { username: "Julian Wannel", email: "julian_wannel@example.com" }
 ]
-
+User.create(username: "Kiki Kennedy", email: "kiki_kennedy@example.com", admin: true, password: 'houtbay')
+puts "Created Kiki as admin"
 def create_users_for_group(players, group)
   players.each do |player_data|
     User.create!(

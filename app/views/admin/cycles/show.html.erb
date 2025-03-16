@@ -1,6 +1,6 @@
 <div class="p-3">
   <h2 class="mb-3">Cycle <%= @cycle.id %> Matches - <%= @cycle.group.title %></h2>
-  <p class="mb-3">
+  <p class="mb-3 ms-3">
     <%= @cycle.weeks %> weeks: <%= @cycle.start_date.strftime('%d %b %Y') %> - <%= @cycle.end_date.strftime('%d %b %Y') %>
   </p>
   <% @matches.each do |match| %>
