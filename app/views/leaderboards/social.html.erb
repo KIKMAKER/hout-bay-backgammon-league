@@ -1,0 +1,28 @@
+<h2> Social Leaderboard</h2>
+<% if @social_rankings.nil? %>
+  <div class="container text-center p-3">
+    <p>No games to rank, yet...</p>
+    <br>
+    <p>Start one!</p>
+    <%= link_to 'new match', new_match_path, class:"btn white-button my-3" %>
+  </div>
+<% else %>
+  <% @social_rankings.each_with_index do |ranking, index| %>
+    <div class="leaderboard-card">
+      <p><%= index + 1 %></p>
+      <div class="leaderboard-username">
+        <p><%= ranking[:player].username %></p>
+      </div>
+      <div class="leaderboard-stats">
+        <div>
+          <i class="fa-solid fa-trophy"></i>
+          <p><%= ranking[:wins] %></p>
+        </div>
+        <div>
+          <i class="fa-solid fa-dice"></i>
+          <p><%= ranking[:matches_played] %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

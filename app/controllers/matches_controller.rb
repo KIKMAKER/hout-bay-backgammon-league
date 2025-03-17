@@ -16,7 +16,7 @@ class MatchesController < ApplicationController
     @match = Match.new(match_params)
     # Always set player1 to current user
     @match.player1 = current_user
-    raise
+
     if @match.save
       # Optionally set winner if scores exist
       if @match.player1_score && @match.player2_score
@@ -24,7 +24,6 @@ class MatchesController < ApplicationController
           winner_id: @match.player1_score > @match.player2_score ? @match.player1_id : @match.player2_id
         )
       end
-
       redirect_to social_leaderboards_path, notice: "Social match created!"
       # Or wherever you want to redirect
     else

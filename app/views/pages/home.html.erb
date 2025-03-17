@@ -7,13 +7,11 @@
         <% if current_user.group %>
           <h3>You are in <%= current_user.group.title %></h3>
         <% end %>
-        <!--<div class="p-4">-->
-        <%#= link_to 'matches', matches_path, class: "btn white-button"  %>
-        <%#= link_to 'leaderboard', leaderboards_path, class: "btn white-button"  %>
-        <!--        </div>-->
+        <h4 class="my-4">Here to play a social game?</h4>
+        <%= link_to 'new match', new_match_path, class:"btn white-button" %>
         <% if current_user.admin? %>
           <br>
-          <%= link_to 'groups', admin_groups_path, class: "btn white-button"  %>
+          <%= link_to 'all groups', admin_groups_path, class: "btn white-button my-5"  %>
         <% end %>
       <% else %>
         <p class="lead my-4">
