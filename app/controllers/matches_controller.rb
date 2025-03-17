@@ -7,6 +7,33 @@ class MatchesController < ApplicationController
     @matches = Match.where("player1_id = ? OR player2_id = ?", current_user.id, current_user.id).order(match_date: :asc)
   end
 
+  def new
+    @match = Match.new
+    @opponents = User.where.not(id: current_user.id)
+  end
+
+  def create
+    @match = Match.new(match_params)
+    # Always set player1 to current user
+    @match.player1 = current_user
+    raise
+    if @match.save
+      # Optionally set winner if scores exist
+      if @match.player1_score && @match.player2_score
+        @match.update!(
+          winner_id: @match.player1_score > @match.player2_score ? @match.player1_id : @match.player2_id
+        )
+      end
+
+      redirect_to social_leaderboards_path, notice: "Social match created!"
+      # Or wherever you want to redirect
+    else
+      # Rerender the form if validation errors
+      @opponents = User.where.not(id: current_user.id)
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def edit
   end
 
@@ -32,7 +59,7 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:player1_score, :player2_score, :match_date)
+    params.require(:match).permit(:player2_id, :player1_score, :player2_score, :match_date)
   end
 
   def determine_winner

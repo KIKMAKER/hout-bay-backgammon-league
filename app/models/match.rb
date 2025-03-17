@@ -2,7 +2,7 @@ class Match < ApplicationRecord
   belongs_to :player1, class_name: "User"
   belongs_to :player2, class_name: "User"
   belongs_to :winner, class_name: "User", optional: true
-  belongs_to :cycle
+  belongs_to :cycle, optional: true
 
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 

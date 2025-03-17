@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   end
 
   resources :matches, only: %i[index new create edit update]
-  resources :leaderboards, only: %i[index]
+  resources :leaderboards, only: %i[index] do
+    collection do
+      get :social
+    end
+  end
   root "pages#home"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

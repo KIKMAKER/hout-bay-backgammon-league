@@ -1,9 +1,40 @@
-<h1>New match</h1>
+<h1>Record a Social Match</h1>
 
-<%= render "form", match: @match %>
+<%= simple_form_for @match do |f| %>
+  <div class="container">
+    <!-- Opponent Selection -->
+    <div class="form-group">
 
-<br>
+      <%= f.input :player2_id,
+          label: "Opponent",
+          as: :select,
+          collection: @opponents.map { |u| [u.username, u.id] },
+          prompt: "Choose a player"
+      %>
+    </div>
+    <h4 class="text-center my-3">Played already? Add your scores:</h4>
 
-<div>
-  <%= link_to "Back to matches", matches_path %>
-</div>
+    <!-- Scores (optional at creation) -->
+    <div class="form-group">
+      <%= f.input :player1_score,
+            label: "Your Score (#{current_user.username})" %>
+    </div>
+    <div class="form-group">
+      <%= f.input :player2_score,
+            label: "Opponent's Score",
+            required: false %>
+    </div>
+
+    <!-- Match Date -->
+    <div class="form-group">
+      <%= f.input :match_date,
+            label: "Match Date",
+            as: :string,
+            input_html: { data: { controller: "datepicker" } } %>
+    </div>
+
+    <div class="container text-center">
+      <%= f.button :submit, "Create Social Match", class: "btn white-button" %>
+    </div>
+  </div>
+<% end %>

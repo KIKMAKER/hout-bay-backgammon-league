@@ -6,6 +6,16 @@ class LeaderboardsController < ApplicationController
     @rankings = calculate_rankings(@players)
   end
 
+  def social
+    @matches = Match.where(cycle_id: nil).where.not(winner_id: nil)
+    # Build stats: each user's wins in social matches
+    @rankings = User.joins("JOIN matches ON (matches.winner_id = users.id)")
+                    .where("matches.cycle_id IS NULL")
+                    .group("users.id")
+                    .order("COUNT(matches.id) DESC")
+                    .select("users.*, COUNT(matches.id) as wins")
+  end
+
   private
 
   def calculate_rankings(players)
