@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :cycles, only: %i[index show]
   end
 
-  resources :matches, only: %i[index edit update]
+  resources :matches, only: %i[index new create edit update]
   resources :leaderboards, only: %i[index]
   root "pages#home"
 
