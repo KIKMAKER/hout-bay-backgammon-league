@@ -52,7 +52,7 @@ class MatchesController < ApplicationController
   end
 
   def authorize_player
-    unless @match.player1 == current_user || @match.player2 == current_user
+    unless @match.player1 == current_user || @match.player2 == current_user || current_user.admin?
       redirect_to matches_path, alert: "You are not authorized to update this match."
     end
   end
