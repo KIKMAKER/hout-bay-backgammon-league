@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   belongs_to :group, optional: true
   validates :username, length: { minimum: 3 }
+  has_many :matches
 
   def admin?
     admin
