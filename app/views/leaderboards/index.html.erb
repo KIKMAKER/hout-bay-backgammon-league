@@ -1,6 +1,6 @@
 <% if current_user.group %>
   <h6 class="text-center"><%= current_user.group.title %></h6>
-  <h2>Leaderboard</h2>
+  <h2>Group Leaderboard</h2>
   <% @rankings.each_with_index do |ranking, index| %>
     <div class="leaderboard-card">
       <p><%= index + 1 %></p>
@@ -22,9 +22,9 @@
   <div class="container text-center">
     <%= link_to 'social leaderboard', social_leaderboards_path, class:"btn white-button mb-3"  %>
   </div>
-<% else %>
-  <h6 class="text-center">Social</h6>
-  <h2>Leaderboard</h2>
+<% end %>
+
+  <h2>Social Leaderboard</h2>
   <% @social_rankings.each_with_index do |ranking, index| %>
     <div class="leaderboard-card">
       <p><%= index + 1 %></p>
@@ -42,5 +42,5 @@
         </div>
       </div>
     </div>
-  <% end %>
+
 <% end %>
