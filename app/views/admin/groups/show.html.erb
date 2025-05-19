@@ -2,7 +2,8 @@
   <%= link_to "All Groups", admin_groups_path, class: "btn white-button ms-1" %>
   <h2><%= @group.title %> Members</h2>
   <% @rankings.each_with_index do |ranking, index| %>
-    <div class="leaderboard-card">
+    <!--<div class="leaderboard-card">-->
+    <%= link_to matches_admin_user_path(ranking[:player]), class:"leaderboard-card" do  %>
       <p><%= index + 1 %></p>
       <div class="leaderboard-username">
         <p><%= ranking[:player].username %></p>
@@ -17,13 +18,14 @@
           <p><%= ranking[:matches_played] %></p>
         </div>
       </div>
-    </div>
+    <!--</div>-->
   <% end %>
-  <div class="container">
-    <% if @latest_cycle %>
-      <%= link_to "Matches", admin_cycle_path(@latest_cycle), class: "btn white-button" %>
-    <% end %>
-    <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %>
-    <%= link_to "Assign Members", add_members_admin_group_path(@group), class: "btn white-button" %>
-  </div>
+<% end %>
+<div class="container">
+  <% if @latest_cycle %>
+    <%= link_to "Matches", admin_cycle_path(@latest_cycle), class: "btn white-button" %>
+  <% end %>
+  <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %>
+  <%= link_to "Assign Members", add_members_admin_group_path(@group), class: "btn white-button" %>
+</div>
 </div>

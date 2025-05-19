@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
+    resources :users, only: [] do          # you only need the member route
+      member do
+        get :matches                       # /admin/users/:id/matches
+      end
+    end
     resources :groups, only: %i[index show new create] do
       member do
         get :add_members
@@ -12,7 +17,7 @@ Rails.application.routes.draw do
     resources :cycles, only: %i[index show]
   end
 
-  resources :matches, only: %i[index new create edit update]
+  resources :matches
   resources :leaderboards, only: %i[index] do
     collection do
       get :social

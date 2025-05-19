@@ -1,6 +1,6 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_match, only: [:edit, :update]
+  before_action :set_match, only: [:edit, :update, :destroy]
   before_action :authorize_player, only: [:edit, :update]
 
   def index
@@ -45,6 +45,12 @@ class MatchesController < ApplicationController
     end
   end
 
+  def destroy
+    @match.destroy
+    redirect_to(admin_cycle_path(@match.cycle),
+                notice: "Match deleted successfully.")
+  end
+
   private
 
   def set_match
@@ -58,7 +64,7 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:player2_id, :player1_score, :player2_score, :match_date)
+    params.require(:match).permit(:player2_id, :player1_score, :player2_score, :match_date, :cycle_id)
   end
 
   def determine_winner

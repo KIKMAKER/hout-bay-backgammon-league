@@ -6,6 +6,10 @@ class Match < ApplicationRecord
 
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 
+  def social?
+    cycle.nil?
+  end
+  
   private
 
   def set_winner

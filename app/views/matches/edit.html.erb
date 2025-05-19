@@ -14,8 +14,29 @@
             as: :string,
             input_html: { data: { controller: "datepicker" } } %>
     </div>
+    <% if current_user.admin? %>
+    <%= f.input :cycle_id,
+        label: "Match type",
+        as: :select,
+        prompt: "Social (no group)",
+        collection: ::Cycle.includes(:group)
+                         .map { |c| ["#{c.group.title} (cycle #{c.id})", c.id] } %>
+  <% else %>
+    <p>
+      <strong>Type:</strong>
+      <%= @match.social? ? "Social" : "Group – #{@match.group.title}" %>
+    </p>
+  <% end %>
     <div class="container text-center">
       <%= f.submit "Submit Result", class: "btn white-button" %>
     </div>
   </div>
+<% end %>
+<% if current_user.admin? %>
+  <hr>
+  <%= button_to "Delete Match",
+                match_path(@match),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" },
+                class: "btn btn-danger" %>
 <% end %>
