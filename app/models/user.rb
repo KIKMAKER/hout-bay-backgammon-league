@@ -7,7 +7,22 @@ class User < ApplicationRecord
 
   belongs_to :group, optional: true
   validates :username, length: { minimum: 3 }
-  has_many :matches
+  # Matches where the user is player 1
+  has_many :matches_as_player1,
+           class_name:  "Match",
+           foreign_key: :player1_id,
+           dependent:   :destroy
+
+  # Matches where the user is player 2
+  has_many :matches_as_player2,
+           class_name:  "Match",
+           foreign_key: :player2_id,
+           dependent:   :destroy
+
+  # Convenience: all matches involving this user
+  def matches
+    Match.where("player1_id = :id OR player2_id = :id", id: id)
+  end
 
   def admin?
     admin
