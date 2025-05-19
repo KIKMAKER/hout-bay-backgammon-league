@@ -2,12 +2,13 @@ class LeaderboardsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    unless current_user.group.nil?
-      @players = current_user.group.users
-      @rankings = calculate_rankings(@players)
+    if current_user.group
+      @group   = current_user.group
+      @players = @group.users
+      @rankings = calculate_rankings(@players, @group)   # pass the group in
     end
-    @social_players = User.all
-    @social_rankings = calculate_social_rankings(@social_players)
+
+    @social_rankings = calculate_social_rankings(User.all)
   end
 
   def social
@@ -24,24 +25,38 @@ class LeaderboardsController < ApplicationController
 
   private
 
-  def calculate_rankings(players)
+  def calculate_rankings(players, group)
     rankings = players.map do |player|
       {
         player: player,
-        wins: Match.where(winner_id: player.id).count,
-        matches_played: Match.where("player1_id = ? OR player2_id = ?", player.id, player.id).where.not(winner_id: nil).count
+        wins:   group_cycle_matches(group)
+               .where(winner_id: player.id)
+               .count,
+
+        matches_played: group_cycle_matches(group)
+                        .where("player1_id = :id OR player2_id = :id", id: player.id)
+                        .where.not(winner_id: nil)
+                        .count
       }
     end
 
     # Sort by wins, then by head-to-head record
-    rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players)] }
+    rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, group)] }
   end
 
-  def head_to_head_wins(player, players)
+  def group_cycle_matches(group)
+    Match.joins(:cycle).where(cycles: { group_id: group.id })
+  end
+
+  def head_to_head_wins(player, players, group)
     players.sum do |opponent|
       next 0 if player == opponent
-
-      Match.where(winner: player, player1: opponent).or(Match.where(winner: player, player2: opponent)).count
+      group_cycle_matches(group)
+        .where(winner_id: player.id)
+        .where("(player1_id = :opp AND player2_id = :me) OR
+                (player1_id = :me  AND player2_id = :opp)",
+               me: player.id, opp: opponent.id)
+        .count
     end
   end
 
@@ -62,6 +77,7 @@ class LeaderboardsController < ApplicationController
     # Otherwise, just sort by total wins descending:
     # rankings.sort_by { |r| -r[:wins] }
   end
+
 
   # (Optional) If you want to maintain a similar tie-breaker structure:
   def social_head_to_head_wins(player, players)
