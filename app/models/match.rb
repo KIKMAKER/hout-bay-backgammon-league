@@ -3,13 +3,14 @@ class Match < ApplicationRecord
   belongs_to :player2, class_name: "User"
   belongs_to :winner, class_name: "User", optional: true
   belongs_to :cycle, optional: true
+  delegate   :group, to: :cycle, allow_nil: true
 
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 
   def social?
     cycle.nil?
   end
-  
+
   private
 
   def set_winner
