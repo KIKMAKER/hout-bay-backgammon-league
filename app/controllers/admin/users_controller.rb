@@ -2,7 +2,7 @@ module Admin
   class UsersController < ApplicationController
     before_action :authenticate_user!
     before_action :authorize_admin!
-    before_action :set_player
+    before_action :set_user, except: :index
 
     def matches
       @matches = Match.where(
@@ -11,10 +11,28 @@ module Admin
       ).order(match_date: :desc)
     end
 
+    def index
+      @users = User.includes(:group).order(:username)
+    end
+
+    def edit; end
+
+    def update
+      if @user.update(user_params)
+        redirect_to admin_users_path, notice: "Member updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+
     private
 
-    def set_player
-      @player = User.find(params[:id])
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:username, :email, :group_id, :admin)
     end
 
     def authorize_admin!
