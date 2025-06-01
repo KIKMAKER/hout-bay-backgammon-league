@@ -1,5 +1,5 @@
 <h1>Submit Match Result</h1>
-<h2 class="fs-3"><%= @match.match_date.strftime('%A, %b %d') %></h2>
+<h2 class="fs-3"><%= @match.match_date&.strftime('%A, %b %d') || "Please add a date for this match!" %></h2>
 <%= simple_form_for @match do |f| %>
   <div class="container">
     <div class="form-group">
@@ -24,7 +24,7 @@
   <% else %>
     <p>
       <strong>Type:</strong>
-      <%= @match.social? ? "Social" : "Group – #{@match.group.title}" %>
+      <%= @match.social? ? "Social" : "Group - #{@match.group.title}" %>
     </p>
   <% end %>
     <div class="container text-center">

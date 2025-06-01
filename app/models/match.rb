@@ -5,6 +5,8 @@ class Match < ApplicationRecord
   belongs_to :cycle, optional: true
   delegate   :group, to: :cycle, allow_nil: true
 
+  validates :match_date, presence: true
+
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 
   def social?
