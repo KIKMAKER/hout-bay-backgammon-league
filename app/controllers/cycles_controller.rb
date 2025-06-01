@@ -8,6 +8,7 @@ class CyclesController < ApplicationController
 
   # GET /cycles/1
   def show
+    
   end
 
   # GET /cycles/new

@@ -4,8 +4,10 @@ class LeaderboardsController < ApplicationController
   def index
     if current_user.group
       @group   = current_user.group
+      @cycle   = current_cycle_for(@group)          # ← NEW
       @players = @group.users
-      @rankings = calculate_rankings(@players, @group)   # pass the group in
+
+      @rankings = calculate_rankings(@players, @cycle)  # pass cycle
     end
 
     @social_rankings = calculate_social_rankings(User.all)
@@ -25,23 +27,51 @@ class LeaderboardsController < ApplicationController
 
   private
 
-  def calculate_rankings(players, group)
+  def current_cycle_for(group)
+    today = Date.current
+    group.cycles.find_by("start_date <= ? AND end_date >= ?", today, today) ||
+      group.cycles.order(start_date: :desc).first
+  end
+
+  # --- ranking for ONE cycle ----------------------------------------
+  def calculate_rankings(players, cycle)
     rankings = players.map do |player|
       {
         player: player,
-        wins:   group_cycle_matches(group)
-               .where(winner_id: player.id)
-               .count,
+        wins: cycle_matches(cycle)
+                .where(winner_id: player.id)
+                .count,
 
-        matches_played: group_cycle_matches(group)
-                        .where("player1_id = :id OR player2_id = :id", id: player.id)
-                        .where.not(winner_id: nil)
-                        .count
+        matches_played: cycle_matches(cycle)
+                          .where("player1_id = :id OR player2_id = :id", id: player.id)
+                          .where.not(winner_id: nil)
+                          .count
       }
     end
 
-    # Sort by wins, then by head-to-head record
-    rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, group)] }
+    rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, cycle)] }
+  end
+
+  # def calculate_rankings(players, group)
+  #   rankings = players.map do |player|
+  #     {
+  #       player: player,
+  #       wins:   group_cycle_matches(group)
+  #              .where(winner_id: player.id)
+  #              .count,
+
+  #       matches_played: group_cycle_matches(group)
+  #                       .where("player1_id = :id OR player2_id = :id", id: player.id)
+  #                       .where.not(winner_id: nil)
+  #                       .count
+  #     }
+  #   end
+
+  #   # Sort by wins, then by head-to-head record
+  #   rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, group)] }
+  # end
+  def cycle_matches(cycle)
+    Match.where(cycle_id: cycle.id)
   end
 
   def group_cycle_matches(group)

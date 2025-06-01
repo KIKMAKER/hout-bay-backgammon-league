@@ -1,21 +1,17 @@
 <h2>Cycle Management</h2>
-
-<%= link_to "Create New Cycle", new_admin_cycle_path, class: "btn btn-primary" %>
-
+<%#= link_to "Create New Cycle", new_admin_cycle_path, class: "btn btn-primary" %>
 <table class="custom-table table">
-  <thead>
-    <tr>
-      <th class="custom-table table">Group</th>
-      <th class="custom-table table">Start Date</th>
-      <th class="custom-table table">End Date</th>
-    </tr>
-  </thead>
   <tbody>
-    <% @cycles.each do |cycle| %>
+    <% @cycles.each_with_index do |cycle, index| %>
       <tr>
-        <td class="custom-table">><%= cycle.group.title %></td>
-        <td class="custom-table">><%= cycle.start_date.strftime("%d %b %Y") %></td>
-        <td class="custom-table">><%= cycle.end_date.strftime("%d %b %Y") %></td>
+        <td class="custom-table text-center">
+          <%= link_to "Cycle #{index + 1}", cycle_path(cycle),
+                      class: "text-decoration-none" %>
+        </td>
+        <td class="custom-table text-center">
+          <%= link_to "#{cycle.start_date.strftime('%b')} – #{cycle.end_date.strftime("%b '%Y")}", cycle_path(cycle),
+                      class: "text-decoration-none" %>
+        </td>
       </tr>
     <% end %>
   </tbody>
