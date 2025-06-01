@@ -1,7 +1,7 @@
 <h2>Your Matches</h2>
   <% @matches.each do |match| %>
     <div class="match-index-card">
-      <p><%= match.match_date.strftime("%d %b") %></p>
+      <p><%= match.match_date&.strftime("%d %b") || "No date" %></p>
       <%= link_to edit_match_path(match), class: "match-card-players" do %>
         <p class="w-25"><%= match.player1.first_name %></p>
         <p><%= match.player1_score ? match.player1_score : '?' %></p>
