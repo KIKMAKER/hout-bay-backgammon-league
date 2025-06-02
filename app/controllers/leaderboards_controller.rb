@@ -4,12 +4,17 @@ class LeaderboardsController < ApplicationController
   def index
     if current_user.group
       @group   = current_user.group
-      @cycle   = current_cycle_for(@group)          # ← NEW
-      @players = @group.users
+      @cycle   = current_cycle_for(@group)   # picks today's cycle (or latest)
 
-      @rankings = calculate_rankings(@players, @cycle)  # pass cycle
+      if @cycle
+        @players   = @group.users
+        @rankings  = calculate_rankings(@players, @cycle)
+      else
+        flash.now[:alert] = "No active cycle for your group."
+      end
     end
 
+    # social leaderboard stays as-is
     @social_rankings = calculate_social_rankings(User.all)
   end
 
@@ -49,7 +54,8 @@ class LeaderboardsController < ApplicationController
       }
     end
 
-    rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, cycle)] }
+    rankings.sort_by { |r| [-r[:wins],
+                            -head_to_head_wins(r[:player], players, cycle)] }
   end
 
   # def calculate_rankings(players, group)
@@ -78,10 +84,11 @@ class LeaderboardsController < ApplicationController
     Match.joins(:cycle).where(cycles: { group_id: group.id })
   end
 
-  def head_to_head_wins(player, players, group)
+  def head_to_head_wins(player, players, cycle)
     players.sum do |opponent|
       next 0 if player == opponent
-      group_cycle_matches(group)
+
+      cycle_matches(cycle)
         .where(winner_id: player.id)
         .where("(player1_id = :opp AND player2_id = :me) OR
                 (player1_id = :me  AND player2_id = :opp)",
