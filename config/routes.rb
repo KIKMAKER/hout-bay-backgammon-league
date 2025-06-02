@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
   namespace :admin do
@@ -26,6 +27,10 @@ Rails.application.routes.draw do
 
   resources :cycles, only: %i[index show] do
     resources :matches, only: :index, module: :cycles
+  end
+
+  resources :rounds, only: %i[index show] do
+    resources :cycles, only: :show, module: :rounds   # /rounds/:round_id/cycles/:id
   end
   root "pages#home"
 
