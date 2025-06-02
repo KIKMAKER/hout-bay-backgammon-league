@@ -4,7 +4,7 @@ class LeaderboardsController < ApplicationController
   def index
     if current_user.group
       @group   = current_user.group
-      @cycle   = current_cycle_for(@group)   # picks today's cycle (or latest)
+      @cycle   = @group.cycles.order(start_date: :desc).first   # picks today's cycle (or latest)
 
       if @cycle
         @players   = @group.users
@@ -32,11 +32,11 @@ class LeaderboardsController < ApplicationController
 
   private
 
-  def current_cycle_for(group)
-    today = Date.current
-    group.cycles.find_by("start_date <= ? AND end_date >= ?", today, today) ||
-      group.cycles.order(start_date: :desc).first
-  end
+  # def current_cycle_for(group)
+  #   today = Date.current
+  #   group.cycles.find_by("start_date <= ? AND end_date >= ?", today, today) ||
+  #     group.cycles.order(start_date: :desc).first
+  # end
 
   # --- ranking for ONE cycle ----------------------------------------
   def calculate_rankings(players, cycle)
