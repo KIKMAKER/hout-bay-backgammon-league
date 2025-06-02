@@ -58,6 +58,10 @@ class LeaderboardsController < ApplicationController
                             -head_to_head_wins(r[:player], players, cycle)] }
   end
 
+  def cycle_matches(cycle)
+    Match.where(cycle_id: cycle.id)
+  end
+
   def group_cycle_matches(group)
     Match.joins(:cycle).where(cycles: { group_id: group.id })
   end
