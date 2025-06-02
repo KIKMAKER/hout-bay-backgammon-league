@@ -12,13 +12,11 @@ class CreateRoundsAndBackfill < ActiveRecord::Migration[7.1]
 
     # --- data back-fill -------------------------------------------
     say_with_time "Creating rounds and assigning cycles" do
-      Cycle
-        .select(:start_date, :end_date)
-        .distinct
-        .find_each do |cycle_stub|
-          Round.create!(start_date: cycle_stub.start_date,
-                        end_date:   cycle_stub.end_date)
-        end
+      Cycle.distinct
+           .pluck(:start_date, :end_date)
+           .each do |start_date, end_date|
+             Round.create!(start_date: start_date, end_date: end_date)
+           end
 
       Cycle.find_each do |c|
         round = Round.find_by!(start_date: c.start_date,
