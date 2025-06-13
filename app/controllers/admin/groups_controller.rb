@@ -10,9 +10,14 @@ module Admin
 
     def show
       @group = Group.find(params[:id])
-      @players = @group.users
-      @rankings = calculate_rankings(@players, @group)
-      @latest_cycle = @group.cycles.order(start_date: :asc).last
+      @cycle   = @group.cycles.order(start_date: :desc).first   # picks today's cycle (or latest)
+
+      if @cycle
+        @players   = @group.users
+        @rankings  = calculate_rankings(@players, @cycle)
+      else
+        flash.now[:alert] = "No active cycle for your group."
+      end
     end
 
     def new
@@ -55,29 +60,38 @@ module Admin
       redirect_to root_path, alert: "Unauthorized!" unless current_user.admin?
     end
 
-    def calculate_rankings(players, group)
+    def calculate_rankings(players, cycle)
       rankings = players.map do |player|
         {
           player: player,
-          wins:   group_cycle_matches(group).where(winner_id: player.id).count,
+          wins: cycle_matches(cycle)
+                  .where(winner_id: player.id)
+                  .count,
 
-          matches_played: group_cycle_matches(group)
+          matches_played: cycle_matches(cycle)
                             .where("player1_id = :id OR player2_id = :id", id: player.id)
-                            .where.not(winner_id: nil).count
+                            .where.not(winner_id: nil)
+                            .count
         }
       end
 
-      rankings.sort_by { |r| [-r[:wins], -head_to_head_wins(r[:player], players, group)] }
+      rankings.sort_by { |r| [-r[:wins],
+                              -head_to_head_wins(r[:player], players, cycle)] }
+    end
+
+    def cycle_matches(cycle)
+      Match.where(cycle_id: cycle.id)
     end
 
     def group_cycle_matches(group)
       Match.joins(:cycle).where(cycles: { group_id: group.id })
     end
 
-    def head_to_head_wins(player, players, group)
+    def head_to_head_wins(player, players, cycle)
       players.sum do |opponent|
         next 0 if player == opponent
-        group_cycle_matches(group)
+
+        cycle_matches(cycle)
           .where(winner_id: player.id)
           .where("(player1_id = :opp AND player2_id = :me) OR
                   (player1_id = :me  AND player2_id = :opp)",
