@@ -1,10 +1,9 @@
 <% if current_user.group %>
   <!--<h6 class="text-center"></h6>-->
   <h2><%= current_user.group.title %> Leaderboard</h2>
-  <h3>
-  Cycle: <%= @cycle.start_date.strftime('%d %b %Y') %> – <%= @cycle.end_date.strftime('%d %b %Y') %>
-</h3>
-
+  <h3 class='mb-3'>
+    Cycle: <%= @cycle.start_date.strftime('%d %b %Y') %> – <%= @cycle.end_date.strftime('%d %b %Y') %>
+  </h3>
   <% @rankings.each_with_index do |ranking, index| %>
     <div class="leaderboard-card">
       <p><%= index + 1 %></p>
@@ -23,28 +22,26 @@
       </div>
     </div>
   <% end %>
- <!-- <div class="container text-center">-->
-    <%#= link_to 'social leaderboard', social_leaderboards_path, class:"btn white-button mb-3"  %>
-<!--  </div>-->
+  <!-- <div class="container text-center">-->
+  <%#= link_to 'social leaderboard', social_leaderboards_path, class:"btn white-button mb-3"  %>
+  <!--  </div>-->
 <% end %>
-
-  <h2>Social Leaderboard</h2>
-  <% @social_rankings.each_with_index do |ranking, index| %>
-    <div class="leaderboard-card">
-      <p><%= index + 1 %></p>
-      <div class="leaderboard-username">
-        <p><%= ranking[:player].username %></p>
+<h2>Social Leaderboard</h2>
+<% @social_rankings.each_with_index do |ranking, index| %>
+  <div class="leaderboard-card">
+    <p><%= index + 1 %></p>
+    <div class="leaderboard-username">
+      <p><%= ranking[:player].username %></p>
+    </div>
+    <div class="leaderboard-stats">
+      <div>
+        <i class="fa-solid fa-trophy"></i>
+        <p><%= ranking[:wins] %></p>
       </div>
-      <div class="leaderboard-stats">
-        <div>
-          <i class="fa-solid fa-trophy"></i>
-          <p><%= ranking[:wins] %></p>
-        </div>
-        <div>
-          <i class="fa-solid fa-dice"></i>
-          <p><%= ranking[:matches_played] %></p>
-        </div>
+      <div>
+        <i class="fa-solid fa-dice"></i>
+        <p><%= ranking[:matches_played] %></p>
       </div>
     </div>
-
+  </div>
 <% end %>

@@ -1,2 +1,17 @@
-<h1>Rounds#index</h1>
-<p>Find me in app/views/rounds/index.html.erb</p>
+<h2>Cycle Management</h2>
+<table class="custom-table table">
+  <tbody>
+    <% @rounds.each_with_index do |round, index| %>
+      <tr>
+        <td class="custom-table text-center">
+          <%= link_to "Cycle #{index + 1}", round_path(round),
+                      class: "text-decoration-none" %>
+        </td>
+        <td class="custom-table text-center">
+          <%= link_to "#{round.start_date.strftime('%b')} – #{round.end_date.strftime("%b '%Y")}", round_path(round),
+                      class: "text-decoration-none" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

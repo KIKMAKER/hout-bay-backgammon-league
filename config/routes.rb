@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :users, only: %i[index edit update] do          # you only need the member route
+    resources :users, only: %i[index edit update] do # only need the member route
       member do
-        get :matches                       # /admin/users/:id/matches
+        get :matches # /admin/users/:id/matches
       end
     end
     resources :groups, only: %i[index show new create] do
@@ -26,11 +26,13 @@ Rails.application.routes.draw do
   end
 
   resources :cycles, only: %i[index show] do
-    resources :matches, only: :index, module: :cycles
+    member do
+      get :matches
+    end
   end
 
   resources :rounds, only: %i[index show] do
-    resources :cycles, only: :show, module: :rounds   # /rounds/:round_id/cycles/:id
+    resources :cycles, only: :show
   end
   root "pages#home"
 
