@@ -1,21 +1,17 @@
-<h1>Your Matches</h1>
-<% if @matches.empty? %>
-  <div class="container">
-    <h3>You don't have any matches yet.</h3>
-    <br>
-    <h3>Ask the admin to add you to a group or find a player for a social match.</p>
-  </div>
-<% end %>
+<h2><%= @cycle.group.title %></h2>
+<h1><%= @round.start_date.strftime('%b') %> - <%= @round.end_date.strftime("%b '%Y") %></h1>
+<h2>All Matches</h2>
 <% @matches.each do |match| %>
   <div class="match-index-card">
-    <p><%= match.match_date&.strftime("%d %b") || "No date" %></p>
-    <%= link_to edit_match_path(match), class: "match-card-players" do %>
+    <div class="match-card-players">
       <p class="w-25"><%= match.player1.first_name %></p>
       <p><%= match.player1_score ? match.player1_score : '?' %></p>
       <%= image_tag'bg_logo.png', class:"avatar"%>
       <p><%= match.player2_score ? match.player2_score : '?' %></p>
       <p class="w-25"><%= match.player2.first_name %></p>
-    <% end %>
+    </div>
   </div>
 <% end %>
+<div class="container text-center mb-3">
+  <%= link_to 'Back to all cycles', rounds_path, class: "btn white-button mt-3" %>
 </div>

@@ -1,5 +1,6 @@
 class Cycle < ApplicationRecord
   belongs_to :group
+  belongs_to :round
   has_many :matches, dependent: :destroy
   validates :start_date, :weeks, :end_date, presence: true
   validate :end_date_after_start_date

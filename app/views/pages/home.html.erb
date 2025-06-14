@@ -9,9 +9,13 @@
         <% end %>
         <h4 class="my-4">Here to play a social game?</h4>
         <%= link_to 'new match', new_match_path, class:"btn white-button" %>
+        <br>
+        <h4 class="my-4">Explore previous cycles:</h4>
+        <%= link_to 'all cycles', rounds_path, class:"btn white-button mt-1" %>
         <% if current_user.admin? %>
           <br>
-          <%= link_to 'all groups', admin_groups_path, class: "btn white-button my-5"  %>
+          <h4 class="my-4">As admin you can manage groups:</h4>
+          <%= link_to 'all groups', admin_groups_path, class: "btn white-button mt-1"  %>
         <% end %>
       <% else %>
         <p class="lead my-4">

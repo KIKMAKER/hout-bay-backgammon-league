@@ -12,6 +12,13 @@
           prompt: "Choose a player"
       %>
     </div>
+    <!-- Match Date -->
+    <div class="form-group">
+      <%= f.input :match_date,
+            label: "Match Date",
+            as: :string,
+            input_html: { data: { controller: "datepicker" } } %>
+    </div>
     <h4 class="text-center my-3">Played already? Add your scores:</h4>
 
     <!-- Scores (optional at creation) -->
@@ -25,13 +32,6 @@
             required: false %>
     </div>
 
-    <!-- Match Date -->
-    <div class="form-group">
-      <%= f.input :match_date,
-            label: "Match Date",
-            as: :string,
-            input_html: { data: { controller: "datepicker" } } %>
-    </div>
 
     <div class="container text-center">
       <%= f.button :submit, "Create Social Match", class: "btn white-button" %>

@@ -5,7 +5,6 @@ class LeaderboardsController < ApplicationController
     if current_user.group
       @group   = current_user.group
       @cycle   = @group.cycles.order(start_date: :desc).first   # picks today's cycle (or latest)
-
       if @cycle
         @players   = @group.users
         @rankings  = calculate_rankings(@players, @cycle)
