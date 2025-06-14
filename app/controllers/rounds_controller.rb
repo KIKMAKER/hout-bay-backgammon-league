@@ -1,6 +1,6 @@
 class RoundsController < ApplicationController
   def index
-    @rounds = Round.order(start_date: :desc)
+    @rounds = Round.order(start_date: :asc)
   end
 
   def show
