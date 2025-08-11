@@ -1,0 +1,76 @@
+<h1>Start New Round</h1>
+<p class="text-muted">Creates one cycle per group and generates matches.</p>
+
+<%= simple_form_for @round do |f| %>
+  <%= f.error_notification %>
+
+  <div class="container">
+    <div class="form-group">
+      <%= f.input :start_date,
+                  label: "Start date",
+                  as: :string,
+                  input_html: { data: { controller: "datepicker" }, autocomplete: "off" },
+                  required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :end_date,
+                  label: "End date",
+                  as: :string,
+                  input_html: { data: { controller: "datepicker" }, autocomplete: "off" },
+                  hint: "Must be after the start date.",
+                  required: true %>
+    </div>
+
+    <hr class="my-4">
+
+    <h2 class="fs-4 mb-3">Cycles (per group)</h2>
+
+    <div class="row">
+      <%= f.simple_fields_for :cycles do |cf| %>
+        <div class="col-md-6">
+          <div class="card mb-3 p-3">
+            <p class="mb-2"><strong>Group:</strong> <%= cf.object.group&.title %></p>
+            <%= cf.input :group_id, as: :hidden %>
+
+            <!-- inherit dates from Round by default; allow override if needed -->
+            <div class="form-group">
+              <%= cf.input :start_date,
+                           label: "Cycle start (optional override)",
+                           as: :string,
+                           input_html: { data: { controller: "datepicker" }, autocomplete: "off" } %>
+            </div>
+
+            <div class="form-group">
+              <%= cf.input :end_date,
+                           label: "Cycle end (optional override)",
+                           as: :string,
+                           input_html: { data: { controller: "datepicker" }, autocomplete: "off" } %>
+            </div>
+
+            <div class="form-group">
+              <%= cf.input :weeks,
+                           label: "Weeks",
+                           as: :integer,
+                           input_html: { min: 1 },
+                           required: true %>
+            </div>
+
+            <div class="form-group">
+              <%= cf.input :catch_up_weeks,
+                           label: "Catch-up weeks",
+                           as: :integer,
+                           input_html: { min: 0 },
+                           hint: "0 if none." %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="container text-center mt-3">
+      <%= f.button :submit, "Create Round & Cycles", class: "btn white-button" %>
+      <%= link_to "Cancel", root_path, class: "btn btn-link" %>
+    </div>
+  </div>
+<% end %>
