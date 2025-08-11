@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :rounds, only: %i[index show] do
+  resources :rounds, only: %i[index show create] do
     resources :cycles, only: :show
   end
   root "pages#home"
