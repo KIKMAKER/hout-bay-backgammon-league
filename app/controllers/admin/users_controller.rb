@@ -5,6 +5,7 @@ module Admin
     before_action :set_user, except: :index
 
     def matches
+      @player = @user
       @matches = Match.where(
         "player1_id = :id OR player2_id = :id",
         id: @player.id

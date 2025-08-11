@@ -95,6 +95,8 @@ class CyclesController < ApplicationController
   end
 
   def cycle_matches(cycle)
-    Match.where(cycle_id: cycle.id).includes(:player1, :player2, :winner)
+    Match.where(cycle_id: cycle.id)
+         .where.not(winner_id: nil)
+         .includes(:player1, :player2, :winner)
   end
 end
