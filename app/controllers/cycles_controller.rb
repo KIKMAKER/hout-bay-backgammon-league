@@ -53,7 +53,6 @@ class CyclesController < ApplicationController
   def matches
     @matches = @cycle.matches
     @round = @cycle.round
-
   end
 
   private
@@ -68,19 +67,21 @@ class CyclesController < ApplicationController
   end
 
   def calculate_rankings(players, cycle, matches)
-    players.map do |player|
-      wins = matches.count { |m| m.winner_id == player.id }
-      played = matches.count do |m|
-        m.player1_id == player.id || m.player2_id == player.id
-      end
+    completed = matches.select { |m| m.winner_id.present? || (m.player1_score && m.player2_score) }
 
-      {
-        player: player,
-        wins: wins,
-        matches_played: played
-      }
-    end
-            .sort_by { |h| [-h[:wins], -head_to_head_wins(h[:player], players, matches)] }
+    players
+      .map do |player|
+        wins   = completed.count { |m| m.winner_id == player.id }
+        played = completed.count { |m| m.player1_id == player.id || m.player2_id == player.id }
+
+        {
+          player: player,
+          wins: wins,
+          matches_played: played
+        }
+      end
+      # pass completed to H2H so ties/order use only real results
+      .sort_by { |h| [-h[:wins], -head_to_head_wins(h[:player], players, completed)] }
   end
 
   def head_to_head_wins(player, players, matches)
@@ -95,6 +96,8 @@ class CyclesController < ApplicationController
   end
 
   def cycle_matches(cycle)
-    Match.where(cycle_id: cycle.id).includes(:player1, :player2, :winner)
+    Match.where(cycle_id: cycle.id)
+        #  .where.not(winner_id: nil)
+         .includes(:player1, :player2, :winner)
   end
 end

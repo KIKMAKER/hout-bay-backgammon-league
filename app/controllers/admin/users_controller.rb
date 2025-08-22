@@ -5,6 +5,7 @@ module Admin
     before_action :set_user, except: :index
 
     def matches
+      @player = @user
       @matches = Match.where(
         "player1_id = :id OR player2_id = :id",
         id: @player.id
@@ -15,7 +16,9 @@ module Admin
       @users = User.includes(:group).order(:username)
     end
 
-    def edit; end
+    def edit
+      @matches = @user.matches.recent.limit(5)
+    end
 
     def update
       if @user.update(user_params)
@@ -23,6 +26,24 @@ module Admin
       else
         render :edit, status: :unprocessable_entity
       end
+    end
+
+    def destroy
+      if @user == current_user
+        redirect_to edit_admin_user_path(@user), alert: "You can’t delete yourself." and return
+      end
+
+      if @user.admin?
+        redirect_to edit_admin_user_path(@user), alert: "You can’t delete an admin user." and return
+      end
+
+      if user_has_any_matches?(@user)
+        redirect_to edit_admin_user_path(@user),
+          alert: "Cannot delete: this user has matches recorded. Consider deactivating instead." and return
+      end
+
+      @user.destroy!
+      redirect_to admin_users_path, notice: "User deleted."
     end
 
     private
@@ -37,6 +58,11 @@ module Admin
 
     def authorize_admin!
       redirect_to root_path, alert: "Unauthorized" unless current_user.admin?
+    end
+
+    def user_has_any_matches?(user)
+      # Use associations if you have them; this version works regardless.
+      Match.where("player1_id = :id OR player2_id = :id", id: user.id).exists?
     end
   end
 end

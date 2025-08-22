@@ -1,5 +1,7 @@
 <h2 class="text-center"><%= @player.username %> – All Matches</h2>
-
+<div class="my-auto d-flex justify-content-center py-3">
+  <%= link_to "edit member details", edit_admin_user_path(@player), class: "btn white-button" %>
+</div>
 <% @matches.each do |match| %>
   <div class="match-index-card">
     <p><%= match.match_date.strftime("%d %b") %></p>

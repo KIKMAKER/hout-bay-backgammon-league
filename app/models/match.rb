@@ -9,6 +9,10 @@ class Match < ApplicationRecord
 
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 
+  scope :completed, -> { where.not(winner_id: nil) } # or: where.not(player1_score: nil, player2_score: nil)
+  scope :recent,    -> { order(Arel.sql("match_date DESC NULLS LAST, created_at DESC")) }
+
+
   def social?
     cycle.nil?
   end
