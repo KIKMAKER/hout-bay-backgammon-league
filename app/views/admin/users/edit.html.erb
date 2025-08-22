@@ -15,10 +15,14 @@
   <%= f.button :submit, "Save", class: "btn btn-primary" %>
   <%= link_to "Back", admin_users_path, class: "btn btn-secondary" %>
 <% end %>
+  <%= link_to "Delete Member",
+                  admin_user_path(@user),
+                 data: {turbo_method: :delete, turbo_confirm: "Delete #{@user.username}? This cannot be undone." },
+                  class: "btn btn-danger" %>
 
 <hr>
 
-<h2><%= @user.username %>'s recent matches</h2>
+<h2>Recent matches</h2>
 <% @matches.each do |match| %>
   <div class="match-index-card">
     <p><%= match.match_date&.strftime("%d %b") || "No date" %></p>

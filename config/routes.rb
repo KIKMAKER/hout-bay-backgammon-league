@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :users, only: %i[index edit update] do # only need the member route
+    resources :users, only: %i[index edit update destroy] do # only need the member route
       member do
         get :matches # /admin/users/:id/matches
       end
