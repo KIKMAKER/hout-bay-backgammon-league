@@ -1,4 +1,4 @@
-<h2>Edit Member</h2>
+<h2>Edit <%= @user.username %></h2>
 
 <%= simple_form_for [:admin, @user] do |f| %>
   <%= f.input :username %>
@@ -15,3 +15,21 @@
   <%= f.button :submit, "Save", class: "btn btn-primary" %>
   <%= link_to "Back", admin_users_path, class: "btn btn-secondary" %>
 <% end %>
+
+<hr>
+
+<h2><%= @user.username %>'s recent matches</h2>
+<% @matches.each do |match| %>
+  <div class="match-index-card">
+    <p><%= match.match_date&.strftime("%d %b") || "No date" %></p>
+    <%= link_to edit_match_path(match), class: "match-card-players" do %>
+      <p class="w-25"><%= match.player1.first_name %></p>
+      <p><%= match.player1_score ? match.player1_score : '?' %></p>
+      <%= image_tag'bg_logo.png', class:"avatar"%>
+      <p><%= match.player2_score ? match.player2_score : '?' %></p>
+      <p class="w-25"><%= match.player2.first_name %></p>
+    <% end %>
+  </div>
+<% end %>
+<br>
+<br>

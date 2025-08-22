@@ -19,6 +19,11 @@ class User < ApplicationRecord
            foreign_key: :player2_id,
            dependent:   :destroy
 
+  has_many :matches, ->(u) {
+    where("player1_id = :id OR player2_id = :id", id: u.id)
+  }, class_name: "Match"
+
+  
   # Convenience: all matches involving this user
   def matches
     Match.where("player1_id = :id OR player2_id = :id", id: id)

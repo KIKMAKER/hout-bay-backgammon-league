@@ -16,7 +16,9 @@ module Admin
       @users = User.includes(:group).order(:username)
     end
 
-    def edit; end
+    def edit
+      @matches = @user.matches.recent.limit(5)
+    end
 
     def update
       if @user.update(user_params)
