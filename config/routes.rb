@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
+    root to: 'dashboard#index'
     resources :users, only: %i[index edit update destroy] do # only need the member route
       member do
         get :matches # /admin/users/:id/matches

@@ -1,0 +1,19 @@
+<div class="container mt-5 p-5">
+  <div class="row">
+    <div class="col text-center">
+      <h1>Admin Dashboard</h1>
+      <p class="lead my-4">Manage the Hout Bay Backgammon League</p>
+
+      <h4 class="my-4">Member Management</h4>
+      <%= link_to 'Manage Members', admin_users_path, class: "btn white-button mt-1" %>
+
+      <h4 class="my-4">Group Management</h4>
+      <%= link_to 'View All Groups', admin_groups_path, class: "btn white-button mt-1" %>
+      <%= link_to 'Create New Group', new_admin_group_path, class: "btn white-button mt-1" %>
+
+      <h4 class="my-4">Round & Cycle Management</h4>
+      <%= link_to 'View All Cycles', admin_cycles_path, class: "btn white-button mt-1" %>
+      <%= link_to 'Generate New Round', new_round_path, class: "btn white-button mt-1" %>
+    </div>
+  </div>
+</div>
