@@ -1,5 +1,7 @@
 <h1><%= @round.start_date.strftime('%b') %> - <%= @round.end_date.strftime("%b '%Y") %> </h1>
 <h1>Leaderboard</h1>
+<%= link_to "Matches", matches_cycle_path(@cycle), class: "btn white-button m-3" %>
+<%= link_to "Back to groups", round_path(@round), class: "btn white-button m-3" %>
 
 <% @rankings.each_with_index do |ranking, index| %>
   <div class="leaderboard-card">
@@ -19,6 +21,4 @@
     </div>
   </div>
 <% end %>
-<%= link_to "Matches", matches_cycle_path(@cycle), class: "btn white-button m-3" %>
-<%= link_to "Back to groups", round_path(@round), class: "btn white-button m-3" %>
 </div>

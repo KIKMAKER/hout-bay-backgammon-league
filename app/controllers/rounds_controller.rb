@@ -13,26 +13,27 @@ class RoundsController < ApplicationController
       start_date: Date.today,
       end_date:   Date.today + 9.weeks
     )
-
-    # Build one cycle per group with defaults
-    Group.order(:title).find_each do |group|
-      @round.cycles.build(
-        group:          group,
-        weeks:          9,
-        catch_up_weeks: 3,
-        start_date:     @round.start_date,
-        end_date:       @round.end_date
-      )
-    end
+    # Set default values for the form (not persisted to Round)
+    @round.weeks = 9
+    @round.catch_up_weeks = 3
   end
 
   def create
-    @round = Round.new(round_params)
+    # Extract weeks and catch_up_weeks from params
+    weeks = params[:round][:weeks].to_i
+    catch_up_weeks = params[:round][:catch_up_weeks].to_i
 
-    # inherit dates for nested cycles if blank
-    @round.cycles.each do |c|
-      c.start_date ||= @round.start_date
-      c.end_date   ||= @round.end_date
+    @round = Round.new(round_params.except(:weeks, :catch_up_weeks))
+
+    # Build one cycle per group with the same characteristics
+    Group.order(:title).find_each do |group|
+      @round.cycles.build(
+        group:          group,
+        weeks:          weeks,
+        catch_up_weeks: catch_up_weeks,
+        start_date:     @round.start_date,
+        end_date:       @round.end_date
+      )
     end
 
     begin
@@ -59,10 +60,7 @@ class RoundsController < ApplicationController
   private
 
   def round_params
-    params.require(:round).permit(
-      :start_date, :end_date,
-      cycles_attributes: [:group_id, :weeks, :catch_up_weeks, :start_date, :end_date]
-    )
+    params.require(:round).permit(:start_date, :end_date, :weeks, :catch_up_weeks)
   end
 
   def require_admin!

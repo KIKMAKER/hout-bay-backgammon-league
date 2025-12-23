@@ -16,7 +16,9 @@ module Admin
         @players   = @group.users
         @rankings  = calculate_rankings(@players, @cycle)
       else
-        flash.now[:alert] = "No active cycle for your group."
+        @players   = @group.users
+        @rankings  = []
+        flash.now[:notice] = "No cycle created yet for this group. Create a cycle to start tracking matches."
       end
     end
 

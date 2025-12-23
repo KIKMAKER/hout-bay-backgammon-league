@@ -1,31 +1,48 @@
 <div class="ms-3 mb-4">
   <%= link_to "All Groups", admin_groups_path, class: "btn white-button ms-1" %>
   <h2><%= @group.title %> Members</h2>
-  <% @rankings.each_with_index do |ranking, index| %>
-    <!--<div class="leaderboard-card">-->
-    <%= link_to matches_admin_user_path(ranking[:player]), class:"leaderboard-card" do  %>
-      <p><%= index + 1 %></p>
-      <div class="leaderboard-username">
-        <p><%= ranking[:player].username %></p>
-      </div>
-      <div class="leaderboard-stats">
-        <div>
-          <i class="fa-solid fa-trophy"></i>
-          <p><%= ranking[:wins] %></p>
+
+  <% if @rankings.any? %>
+    <%# Show rankings with stats when cycle exists %>
+    <% @rankings.each_with_index do |ranking, index| %>
+      <%= link_to matches_admin_user_path(ranking[:player]), class:"leaderboard-card" do  %>
+        <p><%= index + 1 %></p>
+        <div class="leaderboard-username">
+          <p><%= ranking[:player].username %></p>
         </div>
-        <div>
-          <i class="fa-solid fa-dice"></i>
-          <p><%= ranking[:matches_played] %></p>
+        <div class="leaderboard-stats">
+          <div>
+            <i class="fa-solid fa-trophy"></i>
+            <p><%= ranking[:wins] %></p>
+          </div>
+          <div>
+            <i class="fa-solid fa-dice"></i>
+            <p><%= ranking[:matches_played] %></p>
+          </div>
         </div>
-      </div>
-    <!--</div>-->
+      <% end %>
+    <% end %>
+  <% elsif @players.any? %>
+    <%# Show simple player list when no cycle exists %>
+    <% @players.order(:username).each_with_index do |player, index| %>
+      <%= link_to matches_admin_user_path(player), class:"leaderboard-card" do  %>
+        <p><%= index + 1 %></p>
+        <div class="leaderboard-username">
+          <p><%= player.username %></p>
+        </div>
+        <div class="leaderboard-stats text-muted">
+          <p class="small">No matches yet</p>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p class="text-muted">No members assigned to this group yet.</p>
   <% end %>
-<% end %>
 <div class="container">
   <% if @cycle %>
     <%= link_to "Matches", admin_cycle_path(@cycle), class: "btn white-button" %>
   <% end %>
-  <%# <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %> %>
+  <%# <%= link_to "New Cycle for #{@group.title}", new_admin_group_cycle_path(@group), class: "btn white-button" %> 
   <%= link_to "Assign Members", add_members_admin_group_path(@group), class: "btn white-button" %>
 </div>
 </div>

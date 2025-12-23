@@ -11,9 +11,11 @@
       <%= link_to 'View All Groups', admin_groups_path, class: "btn white-button mt-1" %>
       <%= link_to 'Create New Group', new_admin_group_path, class: "btn white-button mt-1" %>
 
-      <h4 class="my-4">Round & Cycle Management</h4>
+      <h4 class="my-4">Cycle Management</h4>
       <%= link_to 'View All Cycles', admin_cycles_path, class: "btn white-button mt-1" %>
-      <%= link_to 'Generate New Round', new_round_path, class: "btn white-button mt-1" %>
+      <%# Note: In code, a "Round" contains multiple "Cycles" (one per group).
+          Admin refers to league-wide competitions as "cycles". This button creates a Round. %>
+      <%= link_to 'Create New Cycle', new_round_path, class: "btn white-button mt-1" %>
     </div>
   </div>
 </div>

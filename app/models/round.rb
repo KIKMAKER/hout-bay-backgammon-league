@@ -1,4 +1,7 @@
 class Round < ApplicationRecord
+  # Virtual attributes for form (not persisted to Round, applied to cycles)
+  attr_accessor :weeks, :catch_up_weeks
+
   has_many :cycles, inverse_of: :round, dependent: :nullify
   accepts_nested_attributes_for :cycles
 
