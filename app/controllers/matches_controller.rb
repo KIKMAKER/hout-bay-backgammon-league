@@ -4,7 +4,9 @@ class MatchesController < ApplicationController
   before_action :authorize_player, only: [:edit, :update]
 
   def index
-    @matches = Match.where("player1_id = ? OR player2_id = ?", current_user.id, current_user.id).order(match_date: :asc)
+    @matches = Match.where("player1_id = ? OR player2_id = ?", current_user.id, current_user.id)
+                    .includes(cycle: :round)
+                    .order(match_date: :desc)
   end
 
   def new
