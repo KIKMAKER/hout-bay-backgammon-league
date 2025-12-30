@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   def index
     @matches = Match.where("player1_id = ? OR player2_id = ?", current_user.id, current_user.id)
                     .includes(cycle: :round)
-                    .order(match_date: :desc)
+                    .order(match_date: :asc)
   end
 
   def new
