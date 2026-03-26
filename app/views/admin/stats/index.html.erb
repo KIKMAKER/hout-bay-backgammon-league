@@ -99,7 +99,7 @@
     <p>First game</p>
   </div>
   <div class="leaderboard-stats">
-    <p><%= @first_match.match_date.strftime("%-d %b %Y") %></p>
+    <p><%= @first_match.match_date&.strftime("%-d %b %Y") || "Unknown" %></p>
   </div>
 </div>
 <div class="leaderboard-card">
@@ -107,7 +107,7 @@
     <p>Most recent game</p>
   </div>
   <div class="leaderboard-stats">
-    <p><%= @latest_match.match_date.strftime("%-d %b %Y") %></p>
+    <p><%= @latest_match.match_date&.strftime("%-d %b %Y") || "Unknown" %></p>
   </div>
 </div>
 <% end %>

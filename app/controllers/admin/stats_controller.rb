@@ -13,8 +13,8 @@ module Admin
       @competitive_matches = all_matches.where.not(cycle_id: nil).count
 
       # First and most recent match dates
-      @first_match = all_matches.order(:match_date).first
-      @latest_match = all_matches.order(match_date: :desc).first
+      @first_match = all_matches.order(Arel.sql("match_date ASC NULLS LAST")).first
+      @latest_match = all_matches.order(Arel.sql("match_date DESC NULLS LAST")).first
 
       # Champion: most wins
       winner_counts = completed.group(:winner_id).count
