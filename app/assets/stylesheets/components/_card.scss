@@ -25,6 +25,86 @@
 
 }
 
+// Stats dashboard
+.stats-subtitle {
+  text-align: center;
+  color: darken($stone, 30%);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.stat-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: darken($stone, 40%);
+  margin: 1.5rem 0 0.75rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background-color: $light-gray;
+  border: 1px solid white;
+  border-radius: 1.5rem;
+  padding: 1rem 0.75rem;
+  text-align: center;
+
+  .stat-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: darken($stone, 35%);
+    margin-top: 0.25rem;
+  }
+
+  &--highlight {
+    background-color: darken($stone, 5%);
+    border-color: darken($stone, 10%);
+
+    .stat-value {
+      font-size: 2.4rem;
+    }
+  }
+}
+
+.stat-featured {
+  .stat-featured-icon {
+    font-size: 1.5rem;
+    width: 15%;
+    text-align: center;
+  }
+
+  .stat-featured-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .stat-featured-label {
+    font-size: 0.8rem;
+    color: darken($stone, 35%);
+    margin-bottom: 0;
+  }
+}
+
 .leaderboard-card {
   text-align: center;
   border-radius: 2rem;

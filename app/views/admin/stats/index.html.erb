@@ -1,0 +1,113 @@
+<h2>&#127881; Year in Review</h2>
+<p class="stats-subtitle">Hout Bay Backgammon League &mdash; All Time</p>
+
+<div class="stats-grid">
+
+  <div class="stat-card stat-card--highlight">
+    <div class="stat-icon"><i class="fa-solid fa-dice"></i></div>
+    <div class="stat-value"><%= @total_matches %></div>
+    <div class="stat-label">Games Played</div>
+  </div>
+
+  <div class="stat-card stat-card--highlight">
+    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+    <div class="stat-value"><%= @total_players %></div>
+    <div class="stat-label">Members</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon"><i class="fa-solid fa-handshake"></i></div>
+    <div class="stat-value"><%= @social_matches %></div>
+    <div class="stat-label">Social Games</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon"><i class="fa-solid fa-chess-board"></i></div>
+    <div class="stat-value"><%= @competitive_matches %></div>
+    <div class="stat-label">Competitive Games</div>
+  </div>
+
+  <% if @total_points > 0 %>
+  <div class="stat-card">
+    <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+    <div class="stat-value"><%= @total_points %></div>
+    <div class="stat-label">Total Points Scored</div>
+  </div>
+  <% end %>
+
+</div>
+
+<% if @champion %>
+<div class="stat-section-title">Hall of Fame</div>
+
+<div class="leaderboard-card stat-featured">
+  <div class="stat-featured-icon"><i class="fa-solid fa-trophy"></i></div>
+  <div class="leaderboard-username">
+    <p class="stat-featured-name"><%= @champion.username %></p>
+    <p class="stat-featured-label">Champion &mdash; <%= @champion_wins %> wins</p>
+  </div>
+</div>
+<% end %>
+
+<% if @most_active %>
+<div class="leaderboard-card stat-featured">
+  <div class="stat-featured-icon"><i class="fa-solid fa-fire"></i></div>
+  <div class="leaderboard-username">
+    <p class="stat-featured-name"><%= @most_active.username %></p>
+    <p class="stat-featured-label">Most Active &mdash; <%= @most_active_count %> games played</p>
+  </div>
+</div>
+<% end %>
+
+<% if @win_rate_leader %>
+<div class="leaderboard-card stat-featured">
+  <div class="stat-featured-icon"><i class="fa-solid fa-chart-line"></i></div>
+  <div class="leaderboard-username">
+    <p class="stat-featured-name"><%= @win_rate_leader.username %></p>
+    <p class="stat-featured-label">Best Win Rate &mdash; <%= @win_rate %>%</p>
+  </div>
+</div>
+<% end %>
+
+<% if @biggest_margin_match %>
+<div class="leaderboard-card stat-featured">
+  <div class="stat-featured-icon"><i class="fa-solid fa-bolt"></i></div>
+  <div class="leaderboard-username">
+    <p class="stat-featured-name"><%= @biggest_margin_match.winner&.username || "Unknown" %></p>
+    <p class="stat-featured-label">
+      Biggest Win &mdash; <%= @biggest_margin_match.player1_score %>&ndash;<%= @biggest_margin_match.player2_score %>
+      vs <%= (@biggest_margin_match.winner == @biggest_margin_match.player1) ? @biggest_margin_match.player2.username : @biggest_margin_match.player1.username %>
+    </p>
+  </div>
+</div>
+<% end %>
+
+<% if @rival1 && @rival2 %>
+<div class="leaderboard-card stat-featured">
+  <div class="stat-featured-icon"><i class="fa-solid fa-dice-d6"></i></div>
+  <div class="leaderboard-username">
+    <p class="stat-featured-name"><%= @rival1.username %> vs <%= @rival2.username %></p>
+    <p class="stat-featured-label">Top Rivalry &mdash; <%= @rivalry_count %> games</p>
+  </div>
+</div>
+<% end %>
+
+<% if @first_match && @latest_match %>
+<div class="stat-section-title">Timeline</div>
+<div class="leaderboard-card">
+  <div class="leaderboard-username">
+    <p>First game</p>
+  </div>
+  <div class="leaderboard-stats">
+    <p><%= @first_match.match_date.strftime("%-d %b %Y") %></p>
+  </div>
+</div>
+<div class="leaderboard-card">
+  <div class="leaderboard-username">
+    <p>Most recent game</p>
+  </div>
+  <div class="leaderboard-stats">
+    <p><%= @latest_match.match_date.strftime("%-d %b %Y") %></p>
+  </div>
+</div>
+<% end %>

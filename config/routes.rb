@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :cycles, only: %i[new create]
     end
     resources :cycles, only: %i[index show]
+    get "stats", to: "stats#index", as: :stats
   end
 
   resources :matches
