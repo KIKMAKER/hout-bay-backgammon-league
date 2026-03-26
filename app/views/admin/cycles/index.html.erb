@@ -1,6 +1,7 @@
 <h2>Cycle Management</h2>
 
-<%= link_to "Create New Cycle", new_admin_cycle_path, class: "btn white-button" %>
+<%# Cycles are created via the Round workflow (new_round_path), not standalone %>
+<%= link_to "Create New Cycle", new_round_path, class: "btn white-button" %>
 
 <table class="custom-table table">
   <thead>

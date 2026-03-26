@@ -2,16 +2,33 @@
 <div class="my-auto d-flex justify-content-center py-3">
   <%= link_to "edit member details", edit_admin_user_path(@player), class: "btn white-button" %>
 </div>
-<% @matches.each do |match| %>
-  <div class="match-index-card">
-    <p><%= match.match_date.strftime("%d %b") %></p>
 
-    <%= link_to edit_match_path(match), class: "match-card-players" do %>
-      <p class="w-25"><%= match.player1.first_name %></p>
-      <p><%= match.winner.present? ? match.player1_score : "?" %></p>
-      <%= image_tag "bg_logo.png", class: "avatar" %>
-      <p><%= match.winner.present? ? match.player2_score : "?" %></p>
-      <p class="w-25"><%= match.player2.first_name %></p>
-    <% end %>
-  </div>
+<% @matches.group_by { |m| m.cycle&.round }.each do |round, matches| %>
+  <% if round.present? %>
+    <div class="mt-4 mb-3">
+      <h4 class="text-muted">
+        <%= round.start_date.strftime("%b %Y") %> - <%= round.end_date.strftime("%b %Y") %>
+      </h4>
+      <hr>
+    </div>
+  <% else %>
+    <div class="mt-4 mb-3">
+      <h4 class="text-muted">Social Matches</h4>
+      <hr>
+    </div>
+  <% end %>
+
+  <% matches.each do |match| %>
+    <div class="match-index-card">
+      <p><%= match.match_date.strftime("%d %b") %></p>
+
+      <%= link_to edit_match_path(match), class: "match-card-players" do %>
+        <p class="w-25"><%= match.player1.first_name %></p>
+        <p><%= match.winner.present? ? match.player1_score : "?" %></p>
+        <%= image_tag "bg_logo.png", class: "avatar" %>
+        <p><%= match.winner.present? ? match.player2_score : "?" %></p>
+        <p class="w-25"><%= match.player2.first_name %></p>
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

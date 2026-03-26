@@ -9,7 +9,7 @@ module Admin
       @matches = Match.where(
         "player1_id = :id OR player2_id = :id",
         id: @player.id
-      ).order(match_date: :desc)
+      ).includes(cycle: :round).order(match_date: :desc)
     end
 
     def index
