@@ -20,7 +20,7 @@
           <% if @latest_cycle.end_date && @latest_cycle.end_date > Date.current %>
             <p class="mt-3">
               The next round robin cycle will start after
-              <strong><%= @latest_cycle.end_date.strftime("%d %B %Y") %></strong>.
+              <strong><%= (@latest_cycle.end_date + @latest_cycle.catch_up_weeks.weeks).strftime("%d %B %Y") %></strong>.
             </p>
           <% end %>
         <% else %>
