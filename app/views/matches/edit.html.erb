@@ -2,11 +2,12 @@
 <h2 class="fs-3"><%= @match.match_date&.strftime('%A, %b %d') || "Please add a date for this match!" %></h2>
 <%= simple_form_for @match do |f| %>
   <div class="container">
+    <% score_options = @match.social? ? {} : { input_html: { min: 0, max: 11 } } %>
     <div class="form-group">
-      <%= f.input :player1_score, label: "#{@match.player1.username}", required: true %>
+      <%= f.input :player1_score, label: "#{@match.player1.username}", required: true, **score_options %>
     </div>
     <div class="form-group">
-      <%= f.input :player2_score, label: "#{@match.player2.username}", required: true %>
+      <%= f.input :player2_score, label: "#{@match.player2.username}", required: true, **score_options %>
     </div>
     <div class="form-group">
       <%= f.input :match_date,

@@ -6,6 +6,7 @@ class Match < ApplicationRecord
   delegate   :group, to: :cycle, allow_nil: true
 
   validates :match_date, presence: true
+  validate :scores_within_range_for_competitive_match
 
   after_update :set_winner, if: -> { player1_score.present? && player2_score.present? }
 
@@ -18,6 +19,15 @@ class Match < ApplicationRecord
   end
 
   private
+
+  def scores_within_range_for_competitive_match
+    return if cycle_id.nil?
+
+    { player1_score: player1_score, player2_score: player2_score }.each do |attr, score|
+      next if score.nil?
+      errors.add(attr, "must be between 0 and 11") unless score.between?(0, 11)
+    end
+  end
 
   def set_winner
     if player1_score > player2_score
