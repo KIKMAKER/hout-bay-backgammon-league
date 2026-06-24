@@ -1,0 +1,26 @@
+<h2>Fee Management</h2>
+
+<% if @rounds.empty? %>
+  <div class="text-center p-3">
+    <p>No cycles have been created yet.</p>
+  </div>
+<% else %>
+  <% @rounds.each do |round| %>
+    <% paid_count = round.payments.count %>
+    <% total_count = round.players.count %>
+    <% unpaid_count = total_count - paid_count %>
+    <%= link_to admin_round_payments_path(round), class: "leaderboard-card" do %>
+      <div class="leaderboard-username">
+        <p><%= round.display_name %></p>
+      </div>
+      <div class="leaderboard-stats">
+        <% if unpaid_count > 0 %>
+          <span class="badge bg-warning text-dark"><%= unpaid_count %> unpaid</span>
+        <% else %>
+          <span class="badge bg-success">All paid</span>
+        <% end %>
+        <span class="ms-2 text-muted" style="font-size: 0.85rem;"><%= paid_count %>/<%= total_count %></span>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

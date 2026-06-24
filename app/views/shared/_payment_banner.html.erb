@@ -1,0 +1,10 @@
+<% if user_signed_in? && (unpaid_round = current_unpaid_round) %>
+  <div class="alert alert-warning alert-dismissible fade show payment-banner"
+       role="alert"
+       data-controller="payment-banner"
+       data-payment-banner-round-id-value="<%= unpaid_round.id %>">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    Your fee for the current cycle is outstanding. Please contact the admin to arrange payment.
+    <button type="button" class="btn-close" data-action="click->payment-banner#dismiss" aria-label="Close"></button>
+  </div>
+<% end %>

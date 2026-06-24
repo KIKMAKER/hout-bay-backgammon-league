@@ -1,0 +1,54 @@
+<h2>Fees – <%= @round.display_name %></h2>
+
+<% paid = @players.select { |p| p.paid_for_round?(@round) } %>
+<% unpaid = @players.reject { |p| p.paid_for_round?(@round) } %>
+
+<p class="text-center text-muted mb-4"><%= paid.count %> of <%= @players.count %> players paid</p>
+
+<% if unpaid.any? %>
+  <h5 class="mb-3">Unpaid (<%= unpaid.count %>)</h5>
+  <% unpaid.each do |player| %>
+    <div class="leaderboard-card">
+      <div class="leaderboard-username">
+        <p><%= player.username %></p>
+        <small class="text-muted"><%= player.group&.title %></small>
+      </div>
+      <div class="leaderboard-stats">
+        <%= button_to "Mark paid", admin_round_payments_path(@round),
+              params: { user_id: player.id },
+              method: :post,
+              class: "btn white-button btn-sm" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if paid.any? %>
+  <h5 class="mt-4 mb-3">Paid (<%= paid.count %>)</h5>
+  <% paid.each do |player| %>
+    <% payment = player.payments.find { |p| p.round_id == @round.id } %>
+    <div class="leaderboard-card">
+      <div class="leaderboard-username">
+        <p><%= player.username %></p>
+        <small class="text-muted"><%= player.group&.title %></small>
+      </div>
+      <div class="leaderboard-stats">
+        <span class="badge bg-success me-2">Paid <%= payment.paid_at.strftime("%-d %b") %></span>
+        <%= button_to "Undo", admin_round_payment_path(@round, payment),
+              method: :delete,
+              class: "btn white-button btn-sm",
+              data: { turbo_confirm: "Mark #{player.username} as unpaid?" } %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @players.empty? %>
+  <div class="text-center p-3">
+    <p>No players in this cycle yet.</p>
+  </div>
+<% end %>
+
+<div class="text-center mt-4">
+  <%= link_to "← Back to Fee Management", admin_rounds_path, class: "btn white-button" %>
+</div>
