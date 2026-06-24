@@ -1,8 +1,11 @@
 # db/seeds.rb
 
 puts "Destroying all data..."
+Loan.destroy_all
+Payment.destroy_all
 Match.destroy_all
 Cycle.destroy_all
+Book.destroy_all
 Group.destroy_all
 User.destroy_all
 puts "✅ All data destroyed."
@@ -107,5 +110,8 @@ if answer == "y"
 else
   puts "Skipping cycle & match creation."
 end
+
+# 4) BOOKS
+load Rails.root.join("db/seeds/books.rb")
 
 puts "Seeding finished!"

@@ -17,6 +17,12 @@ Rails.application.routes.draw do
       resources :cycles, only: %i[new create]
     end
     resources :cycles, only: %i[index show]
+    resources :rounds, only: %i[index] do
+      resources :payments, only: %i[index create destroy]
+    end
+    resources :books, only: %i[index] do
+      resources :loans, only: %i[create destroy]
+    end
     get "stats", to: "stats#index", as: :stats
   end
 

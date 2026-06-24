@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
 
   belongs_to :group, optional: true
+  has_many :payments, dependent: :destroy
+  has_many :loans, dependent: :nullify
   validates :username, length: { minimum: 3 }
   # Matches where the user is player 1
   has_many :matches_as_player1,
@@ -31,6 +33,10 @@ class User < ApplicationRecord
 
   def admin?
     admin
+  end
+
+  def paid_for_round?(round)
+    payments.exists?(round: round)
   end
 
   def first_name

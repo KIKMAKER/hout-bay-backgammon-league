@@ -11,6 +11,12 @@
       <%= link_to 'View All Groups', admin_groups_path, class: "btn white-button mt-1" %>
       <%= link_to 'Create New Group', new_admin_group_path, class: "btn white-button mt-1" %>
 
+      <h4 class="my-4">Fee Management</h4>
+      <%= link_to 'Manage Fees', admin_rounds_path, class: "btn white-button mt-1" %>
+
+      <h4 class="my-4">Library</h4>
+      <%= link_to 'Manage Book Loans', admin_books_path, class: "btn white-button mt-1" %>
+
       <h4 class="my-4">Cycle Management</h4>
       <%= link_to 'View All Cycles', admin_cycles_path, class: "btn white-button mt-1" %>
       <%# Note: In code, a "Round" contains multiple "Cycles" (one per group).

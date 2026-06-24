@@ -1,0 +1,64 @@
+<h2>Library</h2>
+
+<% on_loan = @books.reject(&:available?) %>
+<% available = @books.select(&:available?) %>
+
+<% if on_loan.any? %>
+  <h5 class="mb-3">On Loan (<%= on_loan.count %>)</h5>
+  <% on_loan.each do |book| %>
+    <% loan = book.active_loan %>
+    <div class="leaderboard-card">
+      <div class="leaderboard-username">
+        <p><%= loan.user.username %></p>
+        <small class="text-muted"><%= book.title %></small>
+      </div>
+      <div class="leaderboard-stats">
+        <% if loan.overdue? %>
+          <span class="badge bg-danger me-2">Overdue since <%= loan.due_date.strftime("%-d %b") %></span>
+        <% else %>
+          <span class="badge bg-warning text-dark me-2">Due <%= loan.due_date.strftime("%-d %b") %></span>
+        <% end %>
+        <%= button_to "Return",
+              admin_book_loan_path(book, loan),
+              method: :delete,
+              class: "btn white-button btn-sm",
+              data: { turbo_confirm: "Mark this copy as returned?" } %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if available.any? %>
+  <h5 class="<%= on_loan.any? ? 'mt-4 ' : '' %>mb-3">Available (<%= available.count %>)</h5>
+  <% available.each do |book| %>
+    <div class="leaderboard-card">
+      <div class="leaderboard-username">
+        <p><%= book.title %></p>
+        <small class="text-muted"><%= book.author %></small>
+      </div>
+      <div class="leaderboard-stats" style="width: 40%;">
+        <% if @paid_users.any? %>
+          <%= form_with url: admin_book_loans_path(book), method: :post, class: "d-flex align-items-center gap-2" do |f| %>
+            <%= f.select :user_id,
+                  @paid_users.map { |u| [u.username, u.id] },
+                  { prompt: "Member…" },
+                  class: "form-select form-select-sm" %>
+            <%= f.submit "Loan", class: "btn white-button btn-sm" %>
+          <% end %>
+        <% else %>
+          <span class="text-muted" style="font-size: 0.85rem;">No paid members</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @books.empty? %>
+  <div class="text-center p-3">
+    <p>No books in the library yet.</p>
+  </div>
+<% end %>
+
+<div class="text-center mt-4">
+  <%= link_to "← Back to Dashboard", admin_root_path, class: "btn white-button" %>
+</div>

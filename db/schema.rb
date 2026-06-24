@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_02_101554) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_24_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "books", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "author", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cycles", force: :cascade do |t|
     t.date "start_date"
@@ -33,6 +40,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_101554) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "loans", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "loaned_at", null: false
+    t.datetime "returned_at"
+    t.bigint "loaned_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_loans_on_book_id"
+    t.index ["book_id"], name: "index_loans_on_book_id_active", unique: true, where: "(returned_at IS NULL)"
+    t.index ["loaned_by_id"], name: "index_loans_on_loaned_by_id"
+    t.index ["user_id"], name: "index_loans_on_user_id"
+  end
+
   create_table "matches", force: :cascade do |t|
     t.bigint "player1_id", null: false
     t.bigint "player2_id", null: false
@@ -47,6 +68,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_101554) do
     t.index ["player1_id"], name: "index_matches_on_player1_id"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
     t.index ["winner_id"], name: "index_matches_on_winner_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "round_id", null: false
+    t.datetime "paid_at", null: false
+    t.bigint "marked_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["marked_by_id"], name: "index_payments_on_marked_by_id"
+    t.index ["round_id"], name: "index_payments_on_round_id"
+    t.index ["user_id", "round_id"], name: "index_payments_on_user_id_and_round_id", unique: true
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "rounds", force: :cascade do |t|
@@ -74,9 +108,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_02_101554) do
 
   add_foreign_key "cycles", "groups"
   add_foreign_key "cycles", "rounds"
+  add_foreign_key "loans", "books"
+  add_foreign_key "loans", "users"
+  add_foreign_key "loans", "users", column: "loaned_by_id"
   add_foreign_key "matches", "cycles"
   add_foreign_key "matches", "users", column: "player1_id"
   add_foreign_key "matches", "users", column: "player2_id"
   add_foreign_key "matches", "users", column: "winner_id"
+  add_foreign_key "payments", "rounds"
+  add_foreign_key "payments", "users"
+  add_foreign_key "payments", "users", column: "marked_by_id"
   add_foreign_key "users", "groups"
 end

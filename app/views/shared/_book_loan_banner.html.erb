@@ -1,0 +1,10 @@
+<% if user_signed_in? && (overdue_loan = current_overdue_loan) %>
+  <div class="alert alert-danger alert-dismissible fade show book-loan-banner"
+       role="alert"
+       data-controller="book-loan-banner"
+       data-book-loan-banner-loan-id-value="<%= overdue_loan.id %>">
+    <i class="fa-solid fa-book me-2"></i>
+    Your copy of <em><%= overdue_loan.book.title %></em> is overdue — please return it to the club.
+    <button type="button" class="btn-close" data-action="click->book-loan-banner#dismiss" aria-label="Close"></button>
+  </div>
+<% end %>
